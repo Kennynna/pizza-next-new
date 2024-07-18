@@ -1,5 +1,12 @@
-export { Categories } from './categories';
+export { CheckboxFiltersGroup } from './checkbox-filters-group';
+export { RangeSlider } from './range-slider';
+export { Categories } from './categories'
 export { Container } from './container'
 export { Header } from './header'
-export { Title } from './title';
+export { Title } from './title'
+export { SortPopup } from './sort-popup'
+export { TopBar } from './top-bar'
+export { Filters } from './filters'
+export { FilterCheckbox } from './filter-checkbox'
+
 
