@@ -3,8 +3,9 @@ import {
 	Title,
 	TopBar,
 	Filters,
-	CheckboxFiltersGroup,
+	ProductCard,
 } from '@/components/shared'
+import { ProductsGroupList } from '@/components/shared/products-group-list'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 
@@ -15,32 +16,79 @@ export default function Home() {
 				<Title size='lg' text='Все пиццы' className='font-extrabold'></Title>
 			</Container>
 
+			<TopBar />
 
-				<TopBar />
+			<Container className='pb-14 mt-10'>
+				<div className='flex gap-[80px]'>
+					{/* Фильтрация */}
+					<div className='w-[250px]'>
+						<Filters />
+					</div>
 
+					{/* Список товаров */}
 
-        <Container className='pb-14 mt-10'>
-          <div className='flex gap-[60px]'>
-
-
-            {/* Фильтрация */}
-          <div className='w-[250px]'>
-            <Filters/>
-          </div>  
-
-
-          {/* Список товаров */}
-
-          <div className='flex-1'>
-            <div className='flex flex-col gap-16'>
-              Список товаров
-            </div>
-          </div>
-
-
-          </div>
-
-        </Container>
+					<div className='flex-1'>
+						<div className='flex flex-col gap-16'>
+							<ProductsGroupList
+								title='Пиццы'
+								items={[
+									{
+										id: 1,
+										name: 'Пицца 1',
+										imageUrl:
+											'https://media.dodostatic.net/image/r:292x292/11EE7D614CBE0530B7234B6D7A6E5F8E.avif',
+										price: 550,
+										items: [{ price: 550 }],
+									},
+									{
+										id: 1,
+										name: 'Пицца 1',
+										imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE7D614CBE0530B7234B6D7A6E5F8E.avif',
+										price: 550,
+										items: [{ price: 550 }],
+									},
+									{
+										id: 1,
+										name: 'Пицца 1',
+										imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE7D614CBE0530B7234B6D7A6E5F8E.avif',
+										price: 550,
+										items: [{ price: 550 }],
+									},
+								]}
+								categoryId={1}
+							/>
+							<ProductsGroupList
+								title='Завтрак'
+								items={[
+									{
+										id: 1,
+										name: 'Пицца 1',
+										imageUrl:
+											'https://media.dodostatic.net/image/r:292x292/11EE7D614CBE0530B7234B6D7A6E5F8E.avif',
+										price: 550,
+										items: [{ price: 550 }],
+									},
+									{
+										id: 1,
+										name: 'Пицца 1',
+										imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE7D614CBE0530B7234B6D7A6E5F8E.avif',
+										price: 550,
+										items: [{ price: 550 }],
+									},
+									{
+										id: 1,
+										name: 'Пицца 1',
+										imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE7D614CBE0530B7234B6D7A6E5F8E.avif',
+										price: 550,
+										items: [{ price: 550 }],
+									},
+								]}
+								categoryId={1}
+							/>
+						</div>
+					</div>
+				</div>
+			</Container>
 		</>
 	)
 }

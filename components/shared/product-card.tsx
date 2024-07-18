@@ -1,5 +1,5 @@
 
-import { Title } from '@radix-ui/react-dialog';
+import { Title } from './index';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
@@ -10,7 +10,7 @@ interface Props {
 	name: string
 	price: number
 	imageUrl: string
-	ingredients: Ingredient[]
+	// ingredients: Ingredient[]
 	className?: string
 }
 
@@ -19,7 +19,7 @@ export const ProductCard: React.FC<Props> = ({
 	name,
 	price,
 	imageUrl,
-	ingredients,
+	// ingredients,
 	className,
 }) => {
 	return (
