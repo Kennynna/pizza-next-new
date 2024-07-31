@@ -1,3 +1,4 @@
+export { SearchInput } from './search-input';
 export { ProductCard } from './product-card'
 export { CheckboxFiltersGroup } from './checkbox-filters-group'
 export { RangeSlider } from './range-slider'
