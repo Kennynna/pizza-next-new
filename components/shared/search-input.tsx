@@ -1,21 +1,36 @@
 'use client'
 import { cn } from '@/lib/utils'
+import { Api } from '@/services/api-client'
 import { Search } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
-import { useClickAway } from 'react-use'
+import { useClickAway, useDebounce } from 'react-use'
+import { Product } from '@prisma/client'
 
 interface Props {
 	className?: string
 }
 
 export const SearchInput: React.FC<Props> = ({ className }) => {
+	const [searchQuery, setSearchQuery] = React.useState('')
 	const [focused, setFocused] = React.useState(false)
+	const [products, setProducts] = React.useState<Product[]>([])
 	const ref = React.useRef(null)
+
 	useClickAway(ref, () => {
-		console.log('OUTSIDE CLICKED')
+		// клик вне области инпута
 		setFocused(false)
 	})
+
+  useDebounce(
+		async () => {
+			const products = await Api.products.search(searchQuery)
+			setProducts(products.products)
+		},
+		200,
+		[searchQuery]
+	)
+
 	return (
 		<>
 			{focused && (
@@ -35,28 +50,35 @@ export const SearchInput: React.FC<Props> = ({ className }) => {
 					placeholder='Найти продукт...'
 					className='rounded-2xl outline-none w-full bg-gray-100 pl-11'
 					onFocus={() => setFocused(true)}
+					value={searchQuery}
+					onChange={e => setSearchQuery(e.target.value)}
 				/>
 
-				<div
-					className={cn(
-						'absolute w-full bg-white rounded-xl py-2 top-14 shadow-md transition-all duration-200 invisible opacity-0 z-30',
-						focused && 'visible opacity-100 top-12'
-					)}
-				>
-					<Link
-						href={'/product/1'}
-						className='items-center w-full flex gap-3 px-3 py-2 hover:bg-primary/10 cursor-pointer'
+				{searchQuery && (
+					<div
+						className={cn(
+							'absolute w-full bg-white rounded-xl py-2 top-14 shadow-md transition-all duration-200 invisible opacity-0 z-30',
+							focused && 'visible opacity-100 top-12'
+						)}
 					>
-						<img
-							className='rounded-sm h-8 w-8'
-							src='https://media.dodostatic.net/image/r:292x292/11EE7D61BB2BD856BD5DFD71FB7D4210.avif'
-							alt='№'
-							width={32}
-							height={32}
-						/>
-						<span>Пицца</span>
-					</Link>
-				</div>
+						{products.map(product => (
+							<Link
+								key={product.id}
+								href={`/product/1${product.id}`}
+								className='items-center w-full flex gap-3 px-3 py-2 hover:bg-primary/10 cursor-pointer'
+							>
+								<img
+									className='rounded-sm h-8 w-8'
+									src={product.imageUrl}
+									alt={product.name}
+									width={32}
+									height={32}
+								/>
+								<span>{product.name}</span>
+							</Link>
+						))}
+					</div>
+				)}
 			</div>
 		</>
 	)
