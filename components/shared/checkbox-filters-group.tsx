@@ -18,6 +18,7 @@ interface Props {
 	selected?: Set<string>
 	className?: string
 	name?: string
+	onClickCheckbox?: (id: string) => void
 }
 
 export const CheckboxFiltersGroup: React.FC<Props> = ({
@@ -82,7 +83,7 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
 						value={item.value}
 						endAdornment={item.endAdornment}
 						checked={false}
-						onCheckedChange={ids => console.log(ids)}
+						onCheckedChange={() => onClickCheckbox?.(item.value)}
 					/>
 				))}
 			</div>
