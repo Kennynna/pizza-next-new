@@ -4,11 +4,13 @@ import React from 'react'
 import { useSet } from 'react-use'
 
 interface ReturnProps {
-	ingredients: Ingredient[],
-	loading: boolean,
-	selectedIds: Set<string>,
+	ingredients: Ingredient[]
+	loading: boolean
+	selectedIngredients: Set<string>
 	onAddId: (id: string) => void
 }
+
+
 
 export const useFilterIngredients = (): ReturnProps => {
 	const [ingredients, setIngredients] = React.useState<Ingredient[]>([])
@@ -34,9 +36,9 @@ export const useFilterIngredients = (): ReturnProps => {
 	return {
 		ingredients,
 		loading,
-		selectedIds,
+		selectedIngredients: selectedIds,
 		onAddId: toggle,
 	}
 }
 
-//Остановка 6:00
+//Остановка 6:00 Подучить хук useSet
