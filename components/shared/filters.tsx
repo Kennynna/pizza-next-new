@@ -8,6 +8,8 @@ import {
 	CheckboxFiltersGroup,
 } from './index'
 import { Input } from '../ui'
+import { useFilterIngredients } from '../hooks/useFilterIngredients'
+
 
 
 interface Props {
@@ -15,8 +17,16 @@ interface Props {
 }
 
 export const Filters: React.FC<Props> = ({ className }) => {
+
+	const { ingredients, loading } = useFilterIngredients()
+	const items = ingredients.map((item) => ({
+		value: String(item.id),
+		text: item.name
+	}))
+
+
 	return (
-		<div className={cn('sticky top-40', className)}>
+		<div className={cn(' top-40', className)}>
 			<Title text='Фильтрация' size='sm' className='mb-5 font-bold' />
 
 			{/* Верхние чекоксы */}
@@ -40,82 +50,9 @@ export const Filters: React.FC<Props> = ({ className }) => {
 				title='Категории'
 				className='mt-5'
 				limit={6}
-				defaultItems={[
-					{
-						text: 'defaultItems',
-						value: '1',
-					},
-					{
-						text: 'defaultItems',
-						value: '2',
-					},
-					{
-						text: 'defaultItems',
-						value: '3',
-					},
-					{
-						text: 'defaultItems',
-						value: '1',
-					},
-					{
-						text: 'defaultItems',
-						value: '2',
-					},
-					{
-						text: 'defaultItems',
-						value: '3',
-					},
-					{
-						text: 'defaultItems',
-						value: '1',
-					},
-					{
-						text: 'defaultItems',
-						value: '2',
-					},
-					{
-						text: 'defaultItems',
-						value: '3',
-					},
-				]}
-				items={[
-					{
-						text: 'Чеснок',
-						value: '1',
-					},
-					{
-						text: 'Помидор',
-						value: '2',
-					},
-					{
-						text: 'Лук',
-						value: '3',
-					},
-					{
-						text: 'Ствол',
-						value: '1',
-					},
-					{
-						text: 'Деньги',
-						value: '2',
-					},
-					{
-						text: 'Массив Items',
-						value: '3',
-					},
-					{
-						text: 'Массив Items',
-						value: '1',
-					},
-					{
-						text: 'Массив Items',
-						value: '2',
-					},
-					{
-						text: 'Массив Items',
-						value: '3',
-					},
-				]}
+				defaultItems={items.slice(0, 6)}
+				items={items}
+				loading={loading}
 			/>
 		</div>
 	)
