@@ -14,11 +14,11 @@ interface QueryFilters extends PriceProps {
 	ingredients: string
 }
 
-export interface Filters{
-  sizes: Set<string>,
-  pizzaTypes: Set<string>,
-  selectedIngredients: Set<string>,
-  prices: PriceProps;
+export interface Filters {
+	sizes: Set<string>
+	pizzaTypes: Set<string>
+	selectedIngredients: Set<string>
+	prices: PriceProps
 }
 
 interface ReturnProps extends Filters {
@@ -27,11 +27,6 @@ interface ReturnProps extends Filters {
 	setSizes: (key: string) => void
 	setSelectedIngredients: (key: string) => void
 }
-
-
-
-
-
 
 //хук для хранения состояний фильтрации
 export const useFilters = (): ReturnProps => {
@@ -59,12 +54,14 @@ export const useFilters = (): ReturnProps => {
 				: []
 		)
 	)
+	
 	//фильтр прайса
 	const [prices, setPrices] = React.useState<PriceProps>({
 		priceFrom: Number(searchParams.get('priceFrom')) || undefined,
 		priceTo: Number(searchParams.get('priceTo')) || undefined,
 	})
 	const updatePrice = (name: keyof PriceProps, value: number) => {
+
 		//для предотвращения больших  цифр
 		if (prices.priceTo && prices.priceTo > 1000) {
 			value = 1000
@@ -72,10 +69,10 @@ export const useFilters = (): ReturnProps => {
 		if (prices.priceFrom && prices.priceFrom < 0) {
 			value = 0
 		}
-		setPrices({
-			...prices,
+		setPrices(prev => ({
+			...prev,
 			[name]: value,
-		})
+		}))
 		console.log(prices)
 	}
 

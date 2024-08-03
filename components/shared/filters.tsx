@@ -10,10 +10,15 @@ interface Props {
 }
 
 export const Filters: React.FC<Props> = ({ className }) => {
+	//наши хуки
 	const { ingredients, loading } = useIngredients()
 	const filters = useFilters()
-
 	useQueryFilters(filters)
+
+	const updatePrice = (price: number[]) => {
+		filters.setPrices('priceFrom', price[0])
+		filters.setPrices('priceTo', price[1])
+	}
 
 	const items = ingredients.map(item => ({
 		value: String(item.id),
@@ -82,22 +87,20 @@ export const Filters: React.FC<Props> = ({ className }) => {
 						filters.prices.priceFrom || 0,
 						filters.prices.priceTo || 1000,
 					]}
-					// onValueChange={([priceFrom, priceTo]) =>
-					// 	setPrice({ priceFrom, priceTo })
-					// }
+					onValueChange={updatePrice}
 				/>
 			</div>
 
 			<CheckboxFiltersGroup
-				title='Категории'
+				title='Ингредиенты'
+				name={'ingredients'}
 				className='mt-5'
 				limit={5}
 				defaultItems={items.slice(0, 6)}
 				items={items}
 				loading={loading}
-				// onClickCheckbox={filters}
-				// selected={selectedIngredients}
-				name={'ingredients'}
+				onClickCheckbox={filters.setSelectedIngredients}
+				selected={filters.selectedIngredients}
 			/>
 		</div>
 	)
