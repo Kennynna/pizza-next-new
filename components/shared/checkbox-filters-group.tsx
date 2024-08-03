@@ -83,8 +83,8 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
 						text={item.text}
 						value={item.value}
 						endAdornment={item.endAdornment}
-						checked={selected?.has(item.value)}
-						onCheckedChange={() => onClickCheckbox?.(item.value)}
+						checked={selected?.has(item.value)} //есть ли в value
+						onCheckedChange={() => onClickCheckbox?.(item.value)} //toggle которая добавляет/удаляет значение
 					/>
 				))}
 			</div>

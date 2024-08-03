@@ -1,60 +1,24 @@
 'use client'
 import { cn } from '@/lib/utils'
 import React from 'react'
-import {
-	Title,
-	FilterCheckbox,
-	RangeSlider,
-	CheckboxFiltersGroup,
-} from './index'
+import { Title, RangeSlider, CheckboxFiltersGroup } from './index'
 import { Input } from '../ui'
-import { useFilterIngredients } from '../hooks/useFilterIngredients'
-import { useSet } from 'react-use'
+import { useFilters, useQueryFilters, useIngredients } from '@/hooks'
 
 interface Props {
 	className?: string
 }
 
-interface PriceProps {
-	//для ползунка с фильтрами цен
-	priceFrom: number
-	priceTo: number
-}
-
 export const Filters: React.FC<Props> = ({ className }) => {
-	const { ingredients, loading, onAddId, selectedIngredients } =
-		useFilterIngredients()
+	const { ingredients, loading } = useIngredients()
+	const filters = useFilters()
 
-	const [sizes, { toggle: toggleSizes }] = useSet(new Set<string>([]))
-	const [pizzaTypes, { toggle: togglePizzaTypes }] = useSet(new Set<string>([]))
-
-	const [prices, setPrice] = React.useState<PriceProps>({
-		priceFrom: 0,
-		priceTo: 1000,
-	})
+	useQueryFilters(filters)
 
 	const items = ingredients.map(item => ({
 		value: String(item.id),
 		text: item.name,
 	}))
-
-	const updatePrice = (name: keyof PriceProps, value: number) => {
-		if (prices.priceTo > 1000) {
-			value = 1000
-		}
-		if (prices.priceFrom < 0) {
-			value = 0
-		}
-		setPrice({
-			...prices,
-			[name]: value,
-		})
-		console.log(prices)
-	}
-
-	React.useEffect(() => {
-		console.log(prices, pizzaTypes, sizes, selectedIngredients)
-	}, [prices, pizzaTypes, sizes, selectedIngredients])
 
 	return (
 		<div className={cn(' top-40', className)}>
@@ -65,8 +29,8 @@ export const Filters: React.FC<Props> = ({ className }) => {
 				name='pizzaTypes'
 				className='mb-5'
 				title='Тип теста'
-				selected={pizzaTypes}
-				onClickCheckbox={togglePizzaTypes}
+				selected={filters.pizzaTypes}
+				onClickCheckbox={filters.setPizzaTypes}
 				items={[
 					{ text: 'Тонкое', value: '1' },
 					{ text: 'Традиционное', value: '2' },
@@ -77,8 +41,8 @@ export const Filters: React.FC<Props> = ({ className }) => {
 				name='sizes'
 				className='mb-5'
 				title='Размеры'
-				onClickCheckbox={toggleSizes}
-				selected={sizes}
+				onClickCheckbox={filters.setSizes}
+				selected={filters.sizes}
 				items={[
 					{ text: '20 см', value: '20' },
 					{ text: '30 см', value: '30' },
@@ -91,20 +55,22 @@ export const Filters: React.FC<Props> = ({ className }) => {
 				<p className='font-bold mb-3'>Цена от и до:</p>
 				<div className='flex gap-3 mb-5'>
 					<Input
-						onChange={e => updatePrice('priceFrom', Number(e.target.value))}
+						onChange={e =>
+							filters.setPrices('priceFrom', Number(e.target.value))
+						}
 						type='number'
 						placeholder='0'
 						min={0}
 						max={1000}
-						value={String(prices.priceFrom)}
+						value={String(filters.prices.priceFrom)}
 					/>
 					<Input
-						onChange={e => updatePrice('priceTo', Number(e.target.value))}
+						onChange={e => filters.setPrices('priceTo', Number(e.target.value))}
 						type='number'
 						min={100}
 						max={1000}
 						placeholder='1000'
-						value={String(prices.priceTo)}
+						value={String(filters.prices.priceTo)}
 					/>
 				</div>
 
@@ -112,10 +78,13 @@ export const Filters: React.FC<Props> = ({ className }) => {
 					min={0}
 					max={1000}
 					step={10}
-					value={[prices.priceFrom, prices.priceTo]}
-					onValueChange={([priceFrom, priceTo]) =>
-						setPrice({ priceFrom, priceTo })
-					}
+					value={[
+						filters.prices.priceFrom || 0,
+						filters.prices.priceTo || 1000,
+					]}
+					// onValueChange={([priceFrom, priceTo]) =>
+					// 	setPrice({ priceFrom, priceTo })
+					// }
 				/>
 			</div>
 
@@ -126,8 +95,8 @@ export const Filters: React.FC<Props> = ({ className }) => {
 				defaultItems={items.slice(0, 6)}
 				items={items}
 				loading={loading}
-				onClickCheckbox={onAddId}
-				selected={selectedIngredients}
+				// onClickCheckbox={filters}
+				// selected={selectedIngredients}
 				name={'ingredients'}
 			/>
 		</div>
