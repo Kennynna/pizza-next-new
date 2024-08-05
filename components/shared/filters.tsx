@@ -1,121 +1,106 @@
 'use client'
 import { cn } from '@/lib/utils'
 import React from 'react'
-import {
-	Title,
-	FilterCheckbox,
-	RangeSlider,
-	CheckboxFiltersGroup,
-} from './index'
+import { Title, RangeSlider, CheckboxFiltersGroup } from './index'
 import { Input } from '../ui'
-
+import { useFilters, useQueryFilters, useIngredients } from '@/hooks'
 
 interface Props {
 	className?: string
 }
 
 export const Filters: React.FC<Props> = ({ className }) => {
+	//наши хуки
+	const { ingredients, loading } = useIngredients()
+	const filters = useFilters()
+	useQueryFilters(filters)
+
+	const updatePrice = (price: number[]) => {
+		filters.setPrices('priceFrom', price[0])
+		filters.setPrices('priceTo', price[1])
+	}
+
+	const items = ingredients.map(item => ({
+		value: String(item.id),
+		text: item.name,
+	}))
+
 	return (
-		<div className={cn('sticky top-40', className)}>
+		<div className={cn(' top-40', className)}>
 			<Title text='Фильтрация' size='sm' className='mb-5 font-bold' />
 
 			{/* Верхние чекоксы */}
-			<div className='flex flex-col gap-4'>
-				<FilterCheckbox text='Можно собирать' value='1' />
-				<FilterCheckbox text='Новинки' value='2' />
-			</div>
+			<CheckboxFiltersGroup
+				name='pizzaTypes'
+				className='mb-5'
+				title='Тип теста'
+				selected={filters.pizzaTypes}
+				onClickCheckbox={filters.setPizzaTypes}
+				items={[
+					{ text: 'Тонкое', value: '1' },
+					{ text: 'Традиционное', value: '2' },
+				]}
+			/>
+
+			<CheckboxFiltersGroup
+				name='sizes'
+				className='mb-5'
+				title='Размеры'
+				onClickCheckbox={filters.setSizes}
+				selected={filters.sizes}
+				items={[
+					{ text: '20 см', value: '20' },
+					{ text: '30 см', value: '30' },
+					{ text: '40 см', value: '40' },
+				]}
+			/>
 
 			{/* Фильтр цен */}
 			<div className='mt-5 border-y border-y-neutral-100 py-6 pb-7'>
 				<p className='font-bold mb-3'>Цена от и до:</p>
 				<div className='flex gap-3 mb-5'>
-					<Input type='number' placeholder='0' min={0} max={1000} />
-					<Input type='number' min={100} max={1000} placeholder='1000' />
+					<Input
+						onChange={e =>
+							filters.setPrices('priceFrom', Number(e.target.value))
+						}
+						type='number'
+						placeholder='0'
+						min={0}
+						max={1000}
+						value={String(filters.prices.priceFrom)}
+					/>
+					<Input
+						onChange={e => filters.setPrices('priceTo', Number(e.target.value))}
+						type='number'
+						min={100}
+						max={1000}
+						placeholder='1000'
+						value={String(filters.prices.priceTo)}
+					/>
 				</div>
 
-				<RangeSlider min={0} max={1000} step={10} value={[0, 1000]} />
+				<RangeSlider
+					min={0}
+					max={1000}
+					step={10}
+					value={[
+						filters.prices.priceFrom || 0,
+						filters.prices.priceTo || 1000,
+					]}
+					onValueChange={updatePrice}
+				/>
 			</div>
 
 			<CheckboxFiltersGroup
-				title='Категории'
+				title='Ингредиенты'
+				name={'ingredients'}
 				className='mt-5'
-				limit={6}
-				defaultItems={[
-					{
-						text: 'defaultItems',
-						value: '1',
-					},
-					{
-						text: 'defaultItems',
-						value: '2',
-					},
-					{
-						text: 'defaultItems',
-						value: '3',
-					},
-					{
-						text: 'defaultItems',
-						value: '1',
-					},
-					{
-						text: 'defaultItems',
-						value: '2',
-					},
-					{
-						text: 'defaultItems',
-						value: '3',
-					},
-					{
-						text: 'defaultItems',
-						value: '1',
-					},
-					{
-						text: 'defaultItems',
-						value: '2',
-					},
-					{
-						text: 'defaultItems',
-						value: '3',
-					},
-				]}
-				items={[
-					{
-						text: 'Чеснок',
-						value: '1',
-					},
-					{
-						text: 'Помидор',
-						value: '2',
-					},
-					{
-						text: 'Лук',
-						value: '3',
-					},
-					{
-						text: 'Ствол',
-						value: '1',
-					},
-					{
-						text: 'Деньги',
-						value: '2',
-					},
-					{
-						text: 'Массив Items',
-						value: '3',
-					},
-					{
-						text: 'Массив Items',
-						value: '1',
-					},
-					{
-						text: 'Массив Items',
-						value: '2',
-					},
-					{
-						text: 'Массив Items',
-						value: '3',
-					},
-				]}
+				limit={5}
+				defaultItems={items.slice(0, 6)}
+				items={items}
+				loading={loading}
+				onClickCheckbox={filters.setSelectedIngredients}
+				selected={filters.selectedIngredients}
 			/>
 		</div>
 	)
