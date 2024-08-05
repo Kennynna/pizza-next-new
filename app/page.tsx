@@ -44,6 +44,7 @@ export default async function Home() {
 											key={category.id}
 											categoryId={category.id}
 											items={category.products}
+											
 										/>
 									)
 							)}

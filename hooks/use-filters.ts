@@ -21,6 +21,8 @@ export interface Filters {
 	prices: PriceProps
 }
 
+
+
 interface ReturnProps extends Filters {
 	setPrices: (name: keyof PriceProps, value: number) => void
 	setPizzaTypes: (key: string) => void
@@ -35,6 +37,7 @@ export const useFilters = (): ReturnProps => {
 		keyof QueryFilters,
 		string
 	>
+	//FIXME: проверить в консоли
 	//Фильтр ингридиентов
 	const [selectedIngredients, { toggle: toggleIngredients }] = useSet(
 		new Set<string>(searchParams.get('ingredients')?.split(','))
@@ -54,14 +57,13 @@ export const useFilters = (): ReturnProps => {
 				: []
 		)
 	)
-	
+
 	//фильтр прайса
 	const [prices, setPrices] = React.useState<PriceProps>({
 		priceFrom: Number(searchParams.get('priceFrom')) || undefined,
 		priceTo: Number(searchParams.get('priceTo')) || undefined,
 	})
 	const updatePrice = (name: keyof PriceProps, value: number) => {
-
 		//для предотвращения больших  цифр
 		if (prices.priceTo && prices.priceTo > 1000) {
 			value = 1000
@@ -73,7 +75,6 @@ export const useFilters = (): ReturnProps => {
 			...prev,
 			[name]: value,
 		}))
-		console.log(prices)
 	}
 
 	return {
