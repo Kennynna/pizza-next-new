@@ -1,4 +1,3 @@
-
 import { Container, Title } from '@/components/shared'
 import { GroupVariants } from '@/components/shared/group-variants'
 import { ProductImage } from '@/components/shared/product-image'
@@ -26,7 +25,7 @@ export default async function ModalProductPage({
       <h1 className='text-2xl font-bold'>Я роут</h1>
 			<div className='flex flex-1'>
 				<ProductImage
-					// size={20}
+					size={20}
 					imageUrl={product.imageUrl}
 					category={product.categoryId}
 				/>
