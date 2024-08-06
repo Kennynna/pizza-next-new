@@ -1,11 +1,11 @@
 import { create } from 'zustand'
 
 interface State {
-	activeSize: number
-	setActiveSize: (activeSize: number) => void
+	activeSizeId: number
+	setActiveSize: (activeSizeId: number) => void
 }
 
 export const useSizeStore = create<State>(set => ({
-	activeSize: 20,
-	setActiveSize: (activeSize: number) => set({ activeSize }),
+	activeSizeId: 1,
+	setActiveSize: (activeSizeId: number) => set({ activeSizeId }),
 }))
