@@ -1,18 +1,19 @@
-import { Dialog } from '@/components/ui';
-import { cn } from '@/lib/utils';
-import { DialogContent } from '@radix-ui/react-dialog';
-import React from 'react';
+import { Dialog } from '@/components/ui'
+import { Product } from '@prisma/client'
+import { DialogContent } from '@radix-ui/react-dialog'
+import React from 'react'
 
 interface Props {
-  className?: string;
+	product: Product
+	className?: string
 }
 
 export const ChooseModalProduct: React.FC<Props> = ({ className }) => {
-  return (
-    <Dialog>
-      <DialogContent>
-        <h1>Я продукт</h1>
-      </DialogContent>
-    </Dialog>
-  );
-};
+	return (
+		<Dialog>
+			<DialogContent className='p-0 w-[1060px] max-w-[1060px] min-h-[500px] bg-white overflow-hidden'>
+				<h1>Я продукт</h1>
+			</DialogContent>
+		</Dialog>
+	)
+}
