@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils'
 import React from 'react'
 import { Title, RangeSlider, CheckboxFiltersGroup } from './index'
 import { Input } from '../ui'
-import { useFilters, useQueryFilters, useIngredients } from '@/hooks'
+import { useFilters, useQueryFilters, useIngredients } from '@/shared/hooks'
 
 interface Props {
 	className?: string

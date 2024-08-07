@@ -1,14 +1,12 @@
 'use client'
 import { cn } from '@/lib/utils'
-import { useCategoryStore } from '@/store/category'
+import { useCategoryStore } from '@/shared/store/category'
 import { Category } from '@prisma/client'
 import React from 'react'
 interface Props {
 	className?: string
 	items: Category[]
 }
-
-
 
 export const Categories: React.FC<Props> = ({ className, items }) => {
 	const categoryActiveId = useCategoryStore(state => state.activeId)
