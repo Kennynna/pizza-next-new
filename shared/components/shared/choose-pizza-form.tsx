@@ -1,9 +1,19 @@
 'use client'
 import { cn } from '@/lib/utils'
 import React from 'react'
-import {	Title,	IngredientItem,PizzaImage,GroupVariants,} from '@/shared/components/shared'
+import {
+	Title,
+	IngredientItem,
+	PizzaImage,
+	GroupVariants,
+} from '@/shared/components/shared'
 import { Button } from '../ui'
-import {PizzaSize,pizzaSizes,pizzaTypes,PizzaType,} from '@/shared/constants/pizza'
+import {
+	PizzaSize,
+	pizzaSizes,
+	pizzaTypes,
+	PizzaType,
+} from '@/shared/constants/pizza'
 import { Ingredient } from '@prisma/client'
 import { useSet } from 'react-use'
 import { ProductWithRelations } from '@/@types/prisma'
@@ -27,11 +37,20 @@ export const ChoosePizzaForm: React.FC<Props> = ({
 }) => {
 	const [size, setSize] = React.useState<PizzaSize>(20)
 	const [type, setType] = React.useState<PizzaType>(1)
+
 	const [selectedIngredients, { toggle: addIngredient }] = useSet(
 		new Set<number>([])
 	)
 	const textDetaills = '30cm traficioonoe testo'
-	const totalPrice = 350
+	//Прайс от вариации пиццы
+	const pizzaPrice = items.find(
+		item => item.pizzaType === type && item.size === size
+	)!.price
+	//Прайс от вариации дополнительных ингредиентов
+	const totalIngredients = ingredients
+		.filter(item => selectedIngredients.has(item.id))
+		.reduce((acc, item) => acc + item.price, 0)
+	const totalPrice = pizzaPrice + totalIngredients
 
 	return (
 		<div className={cn(className, 'flex flex-1')}>
@@ -41,7 +60,7 @@ export const ChoosePizzaForm: React.FC<Props> = ({
 			<div className='w-[490px] bg-[#f7f6f5] p-7'>
 				<Title text={name} size='md' className='font-extrabold mb-1' />
 				<p className='text-gray-400'>{textDetaills}</p>
-				{/* {//FIXME: Добавить возможность выбора img  */}
+
 				<div className='flex flex-col gap-5 mt-10'>
 					<GroupVariants
 						items={pizzaSizes}
@@ -54,6 +73,7 @@ export const ChoosePizzaForm: React.FC<Props> = ({
 						onClick={value => setType(Number(value) as PizzaType)}
 					/>
 				</div>
+
 				<Button
 					// loading={}
 					// onClick={}
