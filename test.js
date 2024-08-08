@@ -389,3 +389,33 @@ function getNextElement(array, index) {
 console.log(getNextElement([1, 2, 3, 4, 5], 6))
 
 console.log(isNaN(Number('asdawd, adwd')))
+
+console.log('Новая заадча')
+
+function numSum(num) {
+  let arrNum = num.toString().split('')
+  console.log(arrNum)
+  return arrNum.reduce((acc, el) => acc + Number(el), 0);
+}
+
+
+console.log(numSum(1234))
+
+
+
+function GetObhZn(arr) {
+
+  let result = []
+
+  for (let i = 0; i < arr.length; i++) {
+    if (arr.every((el) => el % i)) {
+      result.push(i)
+    }
+  }
+  return result
+
+}
+console.log(GetObhZn([3,9,12]))
+
+
+// 09:20
