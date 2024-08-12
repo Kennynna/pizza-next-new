@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils'
 import React from 'react'
-import { CartButton, CartDrawer, Container, SearchInput } from './index'
+import { CartButton, Container, SearchInput } from './index'
 import Image from 'next/image'
 import Link from 'next/link'
 interface Props {
@@ -27,9 +27,7 @@ export const Header: React.FC<Props> = ({ className }) => {
 					<SearchInput />
 				</div>
 
-				<CartDrawer>
-					<CartButton />
-				</CartDrawer>
+				<CartButton />
 			</Container>
 		</header>
 	)
