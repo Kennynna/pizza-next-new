@@ -1,4 +1,4 @@
-export { SearchInput } from './search-input';
+export { SearchInput } from './search-input'
 export { ProductCard } from './product-card'
 export { CheckboxFiltersGroup } from './checkbox-filters-group'
 export { RangeSlider } from './range-slider'
@@ -10,3 +10,7 @@ export { SortPopup } from './sort-popup'
 export { TopBar } from './top-bar'
 export { Filters } from './filters'
 export { FilterCheckbox } from './filter-checkbox'
+export { PizzaImage } from './pizza-image'
+export { ChooseProductForm } from './choose-prduct-form'
+export { IngredientItem } from './ingredient-item'
+export { GroupVariants } from './group-variants'

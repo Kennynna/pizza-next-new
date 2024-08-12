@@ -1,6 +1,6 @@
 'use client'
 import { cn } from '@/lib/utils'
-import { Api } from '@/services/api-client'
+import { Api } from '@/shared/services/api-client'
 import { Search } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
@@ -66,33 +66,32 @@ export const SearchInput: React.FC<Props> = ({ className }) => {
 					onChange={e => setSearchQuery(e.target.value)}
 				/>
 
-				{searchQuery &&
-					products.length > 0 && (
-						<div
-							className={cn(
-								'absolute w-full bg-white rounded-xl py-2 top-14 shadow-md transition-all duration-200 invisible opacity-0 z-30',
-								focused && 'visible opacity-100 top-12'
-							)}
-						>
-							{products.map(product => (
-								<Link
-									onClick={onClickInput}
-									key={product.id}
-									href={`/product/1${product.id}`}
-									className='items-center w-full flex gap-3 px-3 py-2 hover:bg-primary/10 cursor-pointer'
-								>
-									<img
-										className='rounded-sm h-8 w-8'
-										src={product.imageUrl}
-										alt={product.name}
-										width={32}
-										height={32}
-									/>
-									<span>{product.name}</span>
-								</Link>
-							))}
-						</div>
-					)}
+				{searchQuery && products.length > 0 && (
+					<div
+						className={cn(
+							'absolute w-full bg-white rounded-xl py-2 top-14 shadow-md transition-all duration-200 invisible opacity-0 z-30',
+							focused && 'visible opacity-100 top-12'
+						)}
+					>
+						{products.map(product => (
+							<Link
+								onClick={onClickInput}
+								key={product.id}
+								href={`/product/1${product.id}`}
+								className='items-center w-full flex gap-3 px-3 py-2 hover:bg-primary/10 cursor-pointer'
+							>
+								<img
+									className='rounded-sm h-8 w-8'
+									src={product.imageUrl}
+									alt={product.name}
+									width={32}
+									height={32}
+								/>
+								<span>{product.name}</span>
+							</Link>
+						))}
+					</div>
+				)}
 			</div>
 		</>
 	)
