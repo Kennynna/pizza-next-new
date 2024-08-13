@@ -22,7 +22,7 @@ export const CountIconButton: React.FC<IconButtonProps> = ({
       disabled={disabled}
       onClick={onClick}
       className={cn(
-        'p-0 hover:bg-primary hover:text-white disabled:bg-white disabled:border-gray-400 disabled:text-gray-400',
+        'p-0 hover:bg-primary hover:text-white disabled:bg-white disabled:border-gray-400 disabled:text-gray-400 duration-300',
         size === 'sm' ? 'w-[30px] h-[30px] rounded-[10px]' : 'w-[38px] h-[38px] rounded-md',
       )}>
       {type === 'plus' ? (
