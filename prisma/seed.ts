@@ -137,7 +137,7 @@ async function up() {
 		data: [
 			{
 				userId: 1,
-				totalAmount: 0,
+				totalAmount: 650,
 				tokenId: '111111',
 			},
 			{
@@ -153,6 +153,8 @@ async function up() {
 			productItemId: 1,
 			cartId: 1,
 			quantity: 2,
+			pizzaSize: 20,
+			type: 1,
 			ingredients: {
 				connect: [{ id: 1 }, { id: 2 }, { id: 3 }],
 			},

@@ -29,55 +29,115 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
 					<SheetTitle>
 						В корзине <span className='font-bold'> 3 товара </span>
 					</SheetTitle>
-
-					<div className='-mx-6 mt-5 overflow-auto flex-1 scrollbar'>
-						<div className='mb-2'>
-							<CartDrawerItem
-								id={1}
-								imageUrl={
-									'https://media.dodostatic.net/image/r:233x233/11EE7D61304FAF5A98A6958F2BB2D260.webp'
-								}
-								details={getCartItemsDetails(2, 20, [
-									{ name: 'цыпленок' },
-									{ name: 'сыр' },
-								])}
-								name={'dasdwad'}
-								price={123}
-								quantity={1}
-							/>
-						</div>
-						<div className='mb-2'>
-							<CartDrawerItem
-								id={1}
-								imageUrl={
-									'https://media.dodostatic.net/image/r:233x233/11EE7D61304FAF5A98A6958F2BB2D260.webp'
-								}
-								details={getCartItemsDetails(2, 20, [
-									{ name: 'цыпленок' },
-									{ name: 'сыр' },
-								])}
-								name={'dasdwad'}
-								price={123}
-								quantity={1}
-							/>
-						</div>
-						<div className='mb-2'>
-							<CartDrawerItem
-								id={1}
-								imageUrl={
-									'https://media.dodostatic.net/image/r:233x233/11EE7D61304FAF5A98A6958F2BB2D260.webp'
-								}
-								details={getCartItemsDetails(2, 20, [
-									{ name: 'цыпленок' },
-									{ name: 'сыр' },
-								])}
-								name={'dasdwad'}
-								price={123}
-								quantity={1}
-							/>
-						</div>
-					</div>
 				</SheetHeader>
+				<div className='-mx-6 mt-5 overflow-auto flex-1 scrollbar'>
+					<div className='mb-2'>
+						<CartDrawerItem
+							id={1}
+							imageUrl={
+								'https://media.dodostatic.net/image/r:233x233/11EE7D61304FAF5A98A6958F2BB2D260.webp'
+							}
+							details={getCartItemsDetails(2, 20, [
+								{ name: 'цыпленок' },
+								{ name: 'сыр' },
+							])}
+							name={'dasdwad'}
+							price={123}
+							quantity={1}
+						/>
+					</div>
+					<div className='mb-2'>
+						<CartDrawerItem
+							id={1}
+							imageUrl={
+								'https://media.dodostatic.net/image/r:233x233/11EE7D61304FAF5A98A6958F2BB2D260.webp'
+							}
+							details={getCartItemsDetails(2, 20, [
+								{ name: 'цыпленок' },
+								{ name: 'сыр' },
+							])}
+							name={'dasdwad'}
+							price={123}
+							quantity={1}
+						/>
+					</div>
+					<div className='mb-2'>
+						<CartDrawerItem
+							id={1}
+							imageUrl={
+								'https://media.dodostatic.net/image/r:233x233/11EE7D61304FAF5A98A6958F2BB2D260.webp'
+							}
+							details={getCartItemsDetails(2, 20, [
+								{ name: 'цыпленок' },
+								{ name: 'сыр' },
+							])}
+							name={'dasdwad'}
+							price={123}
+							quantity={1}
+						/>
+					</div>
+					<div className='mb-2'>
+						<CartDrawerItem
+							id={1}
+							imageUrl={
+								'https://media.dodostatic.net/image/r:233x233/11EE7D61304FAF5A98A6958F2BB2D260.webp'
+							}
+							details={getCartItemsDetails(2, 20, [
+								{ name: 'цыпленок' },
+								{ name: 'сыр' },
+							])}
+							name={'dasdwad'}
+							price={123}
+							quantity={1}
+						/>
+					</div>
+					<div className='mb-2'>
+						<CartDrawerItem
+							id={1}
+							imageUrl={
+								'https://media.dodostatic.net/image/r:233x233/11EE7D61304FAF5A98A6958F2BB2D260.webp'
+							}
+							details={getCartItemsDetails(2, 20, [
+								{ name: 'цыпленок' },
+								{ name: 'сыр' },
+							])}
+							name={'dasdwad'}
+							price={123}
+							quantity={1}
+						/>
+					</div>
+					<div className='mb-2'>
+						<CartDrawerItem
+							id={1}
+							imageUrl={
+								'https://media.dodostatic.net/image/r:233x233/11EE7D61304FAF5A98A6958F2BB2D260.webp'
+							}
+							details={getCartItemsDetails(2, 20, [
+								{ name: 'цыпленок' },
+								{ name: 'сыр' },
+							])}
+							name={'dasdwad'}
+							price={123}
+							quantity={1}
+						/>
+					</div>
+					<div className='mb-2'>
+						<CartDrawerItem
+							id={1}
+							imageUrl={
+								'https://media.dodostatic.net/image/r:233x233/11EE7D61304FAF5A98A6958F2BB2D260.webp'
+							}
+							details={getCartItemsDetails(2, 20, [
+								{ name: 'цыпленок' },
+								{ name: 'сыр' },
+							])}
+							name={'dasdwad'}
+							price={123}
+							quantity={1}
+						/>
+					</div>
+				</div>
+
 				<SheetFooter className='-mx-6 bg-white p-8'>
 					<div className='w-full'>
 						<div className='flex mb-5'>
