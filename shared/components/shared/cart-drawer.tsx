@@ -13,6 +13,8 @@ import { Button } from '../ui'
 import { ArrowRight } from 'lucide-react'
 import { CartDrawerItem } from './cart-drawer-item'
 import { getCartItemsDetails } from '@/lib'
+import { useCartStore } from '@/shared/store'
+import { PizzaSize, PizzaType } from '@/shared/constants/pizza'
 
 interface Props {
 	className?: string
@@ -21,6 +23,16 @@ interface Props {
 export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
 	children,
 }) => {
+	const [totalAmount, fetchCartItems, items] = useCartStore(state => [
+		state.totalAmount,
+		state.fetchCartItems,
+		state.items,
+	])
+
+	React.useEffect(() => {
+		fetchCartItems()
+	}, [])
+
 	return (
 		<Sheet>
 			<SheetTrigger asChild>{children}</SheetTrigger>
@@ -32,109 +44,25 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
 				</SheetHeader>
 				<div className='-mx-6 mt-5 overflow-auto flex-1 scrollbar'>
 					<div className='mb-2'>
-						<CartDrawerItem
-							id={1}
-							imageUrl={
-								'https://media.dodostatic.net/image/r:233x233/11EE7D61304FAF5A98A6958F2BB2D260.webp'
-							}
-							details={getCartItemsDetails(2, 20, [
-								{ name: 'цыпленок' },
-								{ name: 'сыр' },
-							])}
-							name={'dasdwad'}
-							price={123}
-							quantity={1}
-						/>
-					</div>
-					<div className='mb-2'>
-						<CartDrawerItem
-							id={1}
-							imageUrl={
-								'https://media.dodostatic.net/image/r:233x233/11EE7D61304FAF5A98A6958F2BB2D260.webp'
-							}
-							details={getCartItemsDetails(2, 20, [
-								{ name: 'цыпленок' },
-								{ name: 'сыр' },
-							])}
-							name={'dasdwad'}
-							price={123}
-							quantity={1}
-						/>
-					</div>
-					<div className='mb-2'>
-						<CartDrawerItem
-							id={1}
-							imageUrl={
-								'https://media.dodostatic.net/image/r:233x233/11EE7D61304FAF5A98A6958F2BB2D260.webp'
-							}
-							details={getCartItemsDetails(2, 20, [
-								{ name: 'цыпленок' },
-								{ name: 'сыр' },
-							])}
-							name={'dasdwad'}
-							price={123}
-							quantity={1}
-						/>
-					</div>
-					<div className='mb-2'>
-						<CartDrawerItem
-							id={1}
-							imageUrl={
-								'https://media.dodostatic.net/image/r:233x233/11EE7D61304FAF5A98A6958F2BB2D260.webp'
-							}
-							details={getCartItemsDetails(2, 20, [
-								{ name: 'цыпленок' },
-								{ name: 'сыр' },
-							])}
-							name={'dasdwad'}
-							price={123}
-							quantity={1}
-						/>
-					</div>
-					<div className='mb-2'>
-						<CartDrawerItem
-							id={1}
-							imageUrl={
-								'https://media.dodostatic.net/image/r:233x233/11EE7D61304FAF5A98A6958F2BB2D260.webp'
-							}
-							details={getCartItemsDetails(2, 20, [
-								{ name: 'цыпленок' },
-								{ name: 'сыр' },
-							])}
-							name={'dasdwad'}
-							price={123}
-							quantity={1}
-						/>
-					</div>
-					<div className='mb-2'>
-						<CartDrawerItem
-							id={1}
-							imageUrl={
-								'https://media.dodostatic.net/image/r:233x233/11EE7D61304FAF5A98A6958F2BB2D260.webp'
-							}
-							details={getCartItemsDetails(2, 20, [
-								{ name: 'цыпленок' },
-								{ name: 'сыр' },
-							])}
-							name={'dasdwad'}
-							price={123}
-							quantity={1}
-						/>
-					</div>
-					<div className='mb-2'>
-						<CartDrawerItem
-							id={1}
-							imageUrl={
-								'https://media.dodostatic.net/image/r:233x233/11EE7D61304FAF5A98A6958F2BB2D260.webp'
-							}
-							details={getCartItemsDetails(2, 20, [
-								{ name: 'цыпленок' },
-								{ name: 'сыр' },
-							])}
-							name={'dasdwad'}
-							price={123}
-							quantity={1}
-						/>
+						{items?.map(item => (
+							<CartDrawerItem
+								key={item.id}
+								id={item.id}
+								imageUrl={item.imageUrl}
+								details={
+									item.pizzaSize && item.pizzaType
+										? getCartItemsDetails(
+												item.ingredients,
+												item.pizzaType as PizzaType,
+												item.pizzaSize as PizzaSize
+										  )
+										: ''
+								}
+								name={item.name}
+								price={item.price}
+								quantity={item.quantity}
+							/>
+						))}
 					</div>
 				</div>
 
@@ -146,7 +74,7 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
 								<div className='flex-1 border-b border-dashed border-b-neutral-200 relative -top-1 mx-2' />
 							</span>
 
-							<span className='font-bold text-lg '>500 ₽ </span>
+							<span className='font-bold text-lg '>{totalAmount} ₽ </span>
 						</div>
 
 						<Link href='/cart'>

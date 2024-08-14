@@ -1,5 +1,9 @@
 import {create} from 'zustand';
-
+/**
+ *
+ * @activeId - id категории
+ * Для переключения категории observer
+ */
 interface State{
     activeId : number;
     setActiveId : (activeId : number) => void;
@@ -7,7 +11,7 @@ interface State{
 
 export const useCategoryStore = create<State>()(set => ({
 	activeId: 1,
-	setActiveId: (activeId : number) => set({activeId}),
+	setActiveId: (activeId) => set({activeId}),
 }));
 
 
