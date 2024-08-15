@@ -6,11 +6,11 @@ export const getCart = async (): Promise<CartDTO> => {
 }
 
 export const updateItemQuantity = async (
-	IteIid: number,
+	itemId: number,
 	quantity: number
 ): Promise<CartDTO> => {
 	return (
-		await axiosInstance.put<CartDTO>(`/cart/${IteIid}`, {
+		await axiosInstance.patch<CartDTO>('/cart/' + itemId, {
 			quantity,
 		})
 	).data

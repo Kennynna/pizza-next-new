@@ -6,7 +6,7 @@ interface Props {
 }
 
 export const CartItemInfo: React.FC<Props> = ({ name, details }) => {
-	// const details = getCartItemsDetails(type, pizzaSize, ingredients || [])
+
 
 	return (
 		<div>

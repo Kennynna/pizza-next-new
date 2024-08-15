@@ -7,4 +7,5 @@ export const Api = {
 	products,
 	ingredients,
 	cart
+
 }

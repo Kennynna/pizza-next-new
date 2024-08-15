@@ -17,7 +17,6 @@ export const getCartItemsDetails = (
 	if (ingredients) {
 		details.push(...ingredients.map(ingredient => ingredient.name))
 	}
-	console.log(details)
-	console.log("ДЕТАЛИ")
+
 	return details.join(', ')
 }

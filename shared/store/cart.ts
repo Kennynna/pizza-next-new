@@ -1,4 +1,3 @@
-import { error } from 'console'
 import { create } from 'zustand'
 import { Api } from '../services/api-client'
 import { getCartDetails } from '@/lib/get-cart-details'
@@ -43,7 +42,6 @@ export const useCartStore = create<CartState>((set, get) => ({
 		try {
 			set({ loading: true, error: false })
 			const data = await Api.cart.getCart()
-
 			set(getCartDetails(data))
 		} catch (error) {
 			console.error(error)
@@ -52,11 +50,14 @@ export const useCartStore = create<CartState>((set, get) => ({
 			set({ loading: false })
 		}
 	},
+
 	updateItemQuantity: async (id: number, quantity: number) => {
 		try {
 			set({ loading: true, error: false })
 			const data = await Api.cart.updateItemQuantity(id, quantity)
+
 			set(getCartDetails(data))
+
 		} catch (error) {
 			console.error(error)
 			set({ error: true })
