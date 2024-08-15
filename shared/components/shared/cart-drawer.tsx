@@ -33,13 +33,27 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
 		fetchCartItems()
 	}, [])
 
+	let itemsCartCount
+	switch (items.length) {
+		case 1:
+			itemsCartCount = 'товар'
+			break
+		case 2 || 3 || 4:
+			itemsCartCount = 'товара'
+		default:
+			itemsCartCount = 'товаров'
+	}
 	return (
 		<Sheet>
 			<SheetTrigger asChild>{children}</SheetTrigger>
 			<SheetContent className='flex flex-col justify-between pb-0 bg-[#f4f1ee]'>
 				<SheetHeader>
 					<SheetTitle>
-						В корзине <span className='font-bold'> 3 товара </span>
+						В корзине{' '}
+						<span className='font-bold'>
+							{' '}
+							В корзине {items.length} {itemsCartCount}
+						</span>
 					</SheetTitle>
 				</SheetHeader>
 				<div className='-mx-6 mt-5 overflow-auto flex-1 scrollbar'>

@@ -5,5 +5,5 @@ export const calcCartItemTotalAmount = (item: CartItemDTO) => {
 		(acc, item) => acc + item.price,
 		0
 	)
-  return  (ingredientsPrice+ item.productItem.price) * item.quantity;
+  return  (ingredientsPrice + item.productItem.price) * item.quantity;
 }
