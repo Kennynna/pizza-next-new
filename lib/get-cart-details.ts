@@ -15,7 +15,7 @@ interface ReturnProps {
 	items: CartStateItem[]
 	totalAmount: number
 }
-
+// function for get cart details
 export const getCartDetails =  (data: CartDTO): ReturnProps => {
 
 	const items =  data.items.map(item => ({

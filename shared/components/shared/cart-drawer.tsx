@@ -23,12 +23,13 @@ interface Props {
 export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
 	children,
 }) => {
-	const [totalAmount, fetchCartItems, items, updateItemQuantity] = useCartStore(
+	const [totalAmount, fetchCartItems, items, updateItemQuantity, removeCartItem] = useCartStore(
 		state => [
 			state.totalAmount,
 			state.fetchCartItems,
 			state.items,
 			state.updateItemQuantity,
+			state.removeCartItem,
 		]
 	)
 
@@ -47,7 +48,7 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
 	}
 
 	let itemsCartCount
-	switch (items.length) {
+	switch (items?.length) {
 		case 1:
 			itemsCartCount = 'товар'
 			break
@@ -64,7 +65,7 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
 					<SheetTitle>
 						В корзине{' '}
 						<span className='font-bold'>
-							{items.length} {itemsCartCount}
+							{items?.length} {itemsCartCount}
 						</span>
 					</SheetTitle>
 				</SheetHeader>
@@ -90,6 +91,7 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
 								onClickCountButton={type =>
 									onClickCountButton(item.id, item.quantity, type)
 								}
+								removeCartItem={() => removeCartItem(item.id)}
 							/>
 						))}
 					</div>

@@ -5,15 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dbaa6557-3d24-46fd-b60e-98566a0b2728" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/app/api/products/search/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/products/search/route.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/get-cart-item-details.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/get-cart-item-details.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/components/shared/cart-drawer-item.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/shared/components/shared/cart-drawer-item.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shared/components/shared/cart-drawer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/shared/components/shared/cart-drawer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/components/shared/search-input.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/shared/components/shared/search-input.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/services/api-client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/shared/services/api-client.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/store/cart.ts" beforeDir="false" afterPath="$PROJECT_DIR$/shared/store/cart.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/store/category.ts" beforeDir="false" afterPath="$PROJECT_DIR$/shared/store/category.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.js" beforeDir="false" afterPath="$PROJECT_DIR$/test.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,23 +31,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Node.js.test.js.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "create__cart",
-    "last_opened_file_path": "C:/Users/Fun/Desktop/ReactProcets/next-test",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "yarn",
-    "settings.editor.selected.configurable": "advanced.settings",
-    "ts.external.directory.path": "C:\\Users\\Fun\\Desktop\\ReactProcets\\pizza-next\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Node.js.test.js.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;create__cart&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Fun/Desktop/ReactProcets/pizza-next&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;advanced.settings&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Fun\\Desktop\\ReactProcets\\pizza-next\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="test.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/test.js" working-dir="$PROJECT_DIR$">
       <method v="2" />
@@ -74,6 +68,9 @@
       <updated>1723484370153</updated>
       <workItem from="1723484371312" duration="663000" />
       <workItem from="1723655993018" duration="17000" />
+      <workItem from="1723771618251" duration="2991000" />
+      <workItem from="1723816668177" duration="1529000" />
+      <workItem from="1723819371836" duration="153000" />
     </task>
     <servers />
   </component>
