@@ -62,7 +62,7 @@ export async function DELETE(
 		if (!cartItem) {
 			return NextResponse.json({ error: 'Cart CartItem not found' })
 		}
-
+		
 		await prisma.cartItem.delete({
 			where: {
 				id,

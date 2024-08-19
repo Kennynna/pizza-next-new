@@ -24,7 +24,7 @@ export const updateCartTotalAmount = async (token: string) => {
 		},
 	})	
 
-	
+	console.log(userCart)
 	if (!userCart) {
 		return 0
 	}
