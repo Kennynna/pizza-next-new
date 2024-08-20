@@ -23,6 +23,7 @@ export const ChooseModalProduct: React.FC<Props> = ({ className, product }) => {
 		addCartItem({
 			productItemId: firstItem.id,
 		})
+		router.back()
 	}
 
 	const onAddPizza = (productItemId: number, ingredients: number[]) => {
@@ -31,6 +32,7 @@ export const ChooseModalProduct: React.FC<Props> = ({ className, product }) => {
 			productItemId,
 			ingredients,
 		})
+		router.back()
 	}
 	return (
 		<Dialog open={Boolean(product)} onOpenChange={() => router.back()}>
