@@ -49,53 +49,57 @@ export async function POST(req: NextRequest) {
 			token = crypto.randomUUID()
 		}
 
-		const userCart = await findOrCreateCart(token)
+		let userCart = await findOrCreateCart(token)
 		const data = (await req.json()) as CreateCartItemValues
+		console.log('userCart', userCart)
+
 		const findCartItem = await prisma.cartItem.findFirst({
-			where:{
+			where: {
 				cartId: userCart.id,
 				productItemId: data.productItemId,
-				ingredients: {every: {id: {in: data.ingredients}}}
-			}
+				ingredients: { every: { id: { in: data.ingredients } } },
+			},
 		})
-		console.log(findCartItem)
-//Если товар был наден делаем +1
-		if(findCartItem){
-			await prisma.cartItem.update({
+			console.log('62 строка' ,findCartItem)
+
+		//Если товар был наден делаем +1
+		if (findCartItem) {
+			const updatedCartItem = await prisma.cartItem.update({
 				where: {
-					id: findCartItem.id
+					id: findCartItem.id,
 				},
 				data: {
-					quantity: findCartItem.quantity + 1
-				}
+					quantity: findCartItem.quantity + 1,
+				},
 			})
-
-
+			const resp = NextResponse.json(updatedCartItem)
+			resp.cookies.set('cartToken', token)
+			console.log('75 строка', resp)
+			return resp
 		}
-		console.log(token)
+
+		console.log('товар был не найден')
 		//Если товар не найден
 		await prisma.cartItem.create({
-			data:{
+			data: {
 				cartId: userCart.id,
 				productItemId: data.productItemId,
-				quantity:1,
-				ingredients: {connect: data.ingredients?.map((ingredientId) => ({ id: ingredientId }))},
-			}
+				quantity: 1,
+				ingredients: { connect: data.ingredients?.map(id => ({ id })) },
+			},
 		})
 
-			const updateUserCart= await updateCartTotalAmount(token)
-			const res = NextResponse.json({ updateUserCart }, 
-			)
-			console.log(res)
-			res.cookies.set({
-				name: 'cartToken',
-				value: token,
-			})
-			return res
+		console.log()
 
+		const updateUserCart = updateCartTotalAmount(token)
+		console.log(updateUserCart)
+		const res = NextResponse.json(updateUserCart)
+		res.cookies.set('cartToken', token)
+		return res
 
+		
 	} catch (error) {
-		console.log(`CART-POST server error ${error}`)
+		console.error(`CART-POST server error ${error}`)
 		return NextResponse.json({ error: 'Something went wrong' }, { status: 500 })
 	}
 }

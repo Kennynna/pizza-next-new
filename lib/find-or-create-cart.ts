@@ -8,13 +8,12 @@ export const findOrCreateCart = async (token: string) => {
 	})
 
 	if (!userCart) {
-		try {
-			await prisma.cart.create({
+		userCart =	await prisma.cart.create({
 				data: {
 					tokenId: token,
 				},
 			})
-		} catch (error) {}
+
 	}
 	return userCart
 }
