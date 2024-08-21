@@ -12,7 +12,5 @@ export async function GET(req: NextRequest) {
 		},
 		take: 5,
 	})
-	console.log(products)
-	console.log(query)
-	return NextResponse.json({ products })
+	return NextResponse.json({products})
 }

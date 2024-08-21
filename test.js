@@ -304,7 +304,7 @@ function fibonacciSum(N) {
   return fibo[N];
 }
 
-console.log(fibonacciSum(10)); // 
+console.log(fibonacciSum(10)); //
 
 
 
@@ -419,3 +419,31 @@ console.log(GetObhZn([3,9,12]))
 
 
 // 09:20
+/*Дан текст со словами. Запишите все слова этого текста в специальный объект.Ключами в этом объекте будут буквы, а
+значениями - массивы слов, начинающихся на эти буквы.
+ */
+
+function newObgArr (text){
+
+  let obj = {
+
+  }
+   let arrayWords = text.toLowerCase().split(' ')
+
+    arrayWords.forEach(word => {
+      const firstLetter = word[0]
+      obj[firstLetter] = obj[firstLetter] ?? [];
+      obj[firstLetter].push(word)
+    })
+
+  return obj
+}
+console.log(newObgArr('Привет как дела что нового начало чикотка как ты там'))
+
+const onjUser = {
+  maga: 100,
+  lana: 200,
+  gera: 400
+  }
+  console.log(Object.values(onjUser).reduce((acc, el) => acc+ el,0))
+

@@ -95,7 +95,7 @@ async function up() {
 	await prisma.productItem.createMany({
 		data: [
 			// Пицца "Пепперони фреш"
-			generateProductItem({ productId: pizza1.id, pizzaType: 1, size: 20}),
+			generateProductItem({ productId: pizza1.id, pizzaType: 1, size: 20 }),
 			generateProductItem({ productId: pizza1.id, pizzaType: 2, size: 30 }),
 			generateProductItem({ productId: pizza1.id, pizzaType: 2, size: 40 }),
 
@@ -138,12 +138,12 @@ async function up() {
 			{
 				userId: 1,
 				totalAmount: 0,
-				tokenId: '111111',
+				token: '11111',
 			},
 			{
 				userId: 2,
 				totalAmount: 0,
-				tokenId: '222222',
+				token: '222222',
 			},
 		],
 	})
