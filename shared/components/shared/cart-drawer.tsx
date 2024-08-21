@@ -70,31 +70,30 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
 					</SheetTitle>
 				</SheetHeader>
 				<div className='-mx-6 mt-5 overflow-auto flex-1 scrollbar'>
-					<div className='mb-2'>
-						{items?.map(item => (
-							<CartDrawerItem
-								key={item.id}
-								id={item.id}
-								imageUrl={item.imageUrl}
-								details={
-									item.pizzaSize && item.pizzaType
-										? getCartItemsDetails(
-												item.ingredients,
-												item.pizzaType as PizzaType,
-												item.pizzaSize as PizzaSize
-										  )
-										: ''
-								}
-								name={item.name}
-								price={item.price}
-								quantity={item.quantity}
-								onClickCountButton={type =>
-									onClickCountButton(item.id, item.quantity, type)
-								}
-								removeCartItem={() => removeCartItem(item.id)}
-							/>
-						))}
-					</div>
+					{items?.map(item => (
+						<CartDrawerItem
+							className='mb-2'
+							key={item.id}
+							id={item.id}
+							imageUrl={item.imageUrl}
+							details={
+								item.pizzaSize && item.pizzaType
+									? getCartItemsDetails(
+											item.ingredients,
+											item.pizzaType as PizzaType,
+											item.pizzaSize as PizzaSize
+									  )
+									: ''
+							}
+							name={item.name}
+							price={item.price}
+							quantity={item.quantity}
+							onClickCountButton={type =>
+								onClickCountButton(item.id, item.quantity, type)
+							}
+							removeCartItem={() => removeCartItem(item.id)}
+						/>
+					))}
 				</div>
 
 				<SheetFooter className='-mx-6 bg-white p-8'>

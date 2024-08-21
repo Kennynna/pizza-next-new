@@ -10,8 +10,9 @@ interface Props {
 	ingredients: any[]
 	items?: any[]
 	onClickAdd?: VoidFunction
-	onSubmit?: VoidFunction
+	onSubmit?: () => void
 	price: number
+	loading?: boolean
 }
 
 export const ChooseProductForm: React.FC<Props> = ({
@@ -20,6 +21,7 @@ export const ChooseProductForm: React.FC<Props> = ({
 	imageUrl,
 	onSubmit,
 	price,
+	loading,
 }) => {
 	const textDetaills = '30cm traficioonoe testo'
 	return (
@@ -36,8 +38,8 @@ export const ChooseProductForm: React.FC<Props> = ({
 				<p className='text-gray-400'>{textDetaills}</p>
 
 				<Button
-					// loading={}
-					onClick={() => onSubmit}
+					loading={loading}
+					onClick={() => onSubmit?.()}
 					className='h-[55px] px-10 text-base  rounded-[18px] w-full mt-10'
 				>
 					Добавить в корзину за {price}

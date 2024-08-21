@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation"
 
 export const useQueryFilters = (filters: Filters) => {
   const router = useRouter()
-	console.log(router)
   React.useEffect(() => {
 		const params = {
 			...filters.prices,

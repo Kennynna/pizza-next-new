@@ -7,6 +7,7 @@ import { ProductWithRelations } from '@/@types/prisma'
 import { cn } from '@/lib/utils'
 import { ChoosePizzaForm } from '../choose-pizza-form'
 import { useCartStore } from '@/shared/store'
+import toast from 'react-hot-toast'
 
 interface Props {
 	product: ProductWithRelations
@@ -17,23 +18,26 @@ export const ChooseModalProduct: React.FC<Props> = ({ className, product }) => {
 	const router = useRouter()
 	const isPizzaFrom = Boolean(product.items[0].pizzaType)
 	const firstItem = product.items[0]
-	const addCartItem = useCartStore(state => state.addCartItem)
+	const [addCartItem, loading] = useCartStore(state => [
+		state.addCartItem,
+		state.loading,
+	])
 
-	const onAddProduct = () => {
-		addCartItem({
-			productItemId: firstItem.id,
-		})
-		router.back()
+	const onSubmit = async (productItemId?: number, ingredients?: number[]): Promise<void> => {
+		try {
+			const itemId = productItemId ?? firstItem.id
+			await addCartItem({
+				productItemId: itemId,
+				ingredients,
+			})
+			toast.success('Товар добавлен в корзину')
+			router.back()
+		} catch (error) {
+			toast.error('Произошла ошибка при добавлении в корзину')
+			console.error(error)
+		}
 	}
 
-	const onAddPizza = (productItemId: number, ingredients: number[]) => {
-		console.log("awsdaw")
-		addCartItem({
-			productItemId,
-			ingredients,
-		})
-		router.back()
-	}
 	return (
 		<Dialog open={Boolean(product)} onOpenChange={() => router.back()}>
 			<DialogContent
@@ -48,19 +52,20 @@ export const ChooseModalProduct: React.FC<Props> = ({ className, product }) => {
 						imageUrl={product.imageUrl}
 						ingredients={product.ingredients}
 						items={product.items}
-						onSubmit={onAddPizza}
+						onSubmit={onSubmit}
+						loading={loading}
 					/>
 				) : (
 					<ChooseProductForm
 						name={product.name}
 						imageUrl={product.imageUrl}
 						ingredients={product.ingredients}
-						onSubmit={onAddProduct}
+						onSubmit={onSubmit}
 						price={firstItem.price}
+						loading={loading}
 					/>
 				)}
 			</DialogContent>
 		</Dialog>
 	)
 }
-// не получилось добавить товар в корзину
