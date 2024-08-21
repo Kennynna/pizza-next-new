@@ -1,14 +1,21 @@
+'use client'
 import React from 'react'
 import { Button } from '../ui'
 import { ArrowRight, ShoppingBasket, User } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { CartDrawer } from './cart-drawer'
+import { useCartStore } from '@/shared/store'
 
 interface Props {
 	className?: string
 }
 
 export const CartButton: React.FC<Props> = ({ className }) => {
+	const [totalAmount, loading, items] = useCartStore((state) => [
+		state.totalAmount,
+		state.loading,
+		state.items
+	])
 	return (
 		<CartDrawer>
 			<div className={cn('flex items-center gap-5', className)}>
@@ -22,14 +29,15 @@ export const CartButton: React.FC<Props> = ({ className }) => {
 
 				<div className='flex items-center gap-3'>
 					<Button
+						loading={loading}
 						variant={'default'}
 						className='group relative flex items-center'
 					>
-						<b>520 р</b>
+						<b>{totalAmount}</b>
 						<span className='h-full w-[1px] bg-white mx-3'></span>
 						<div className='flex items-center gap-1 transition duration-300 group-hover:opacity-0'>
 							<ShoppingBasket className='h-4 w-4 relative' strokeWidth={2} />
-							<b>0</b>
+							<b>{items.length}</b>
 						</div>
 						<ArrowRight
 							size={20}

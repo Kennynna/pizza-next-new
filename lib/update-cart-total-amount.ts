@@ -3,7 +3,6 @@ import { Api } from '@/shared/services/api-client'
 import { calcCartItemTotalAmount } from './calc-cart-item-total-amount'
 
 export const updateCartTotalAmount = async (token: string) => {
-	console.log(token)
 	const userCart = await prisma.cart.findFirst({
 		where: {
 			token,

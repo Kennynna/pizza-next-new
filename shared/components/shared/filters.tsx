@@ -14,14 +14,13 @@ export const Filters: React.FC<Props> = ({ className }) => {
 	const { ingredients, loading } = useIngredients()
 	const filters = useFilters()
 	useQueryFilters(filters)
-
 	const updatePrice = (price: number[]) => {
 		filters.setPrices('priceFrom', price[0])
 		filters.setPrices('priceTo', price[1])
 	}
 
 	const items = ingredients.map(item => ({
-		value: String(item.id),
+		value: String(item.id + 2),
 		text: item.name,
 	}))
 
@@ -41,7 +40,8 @@ export const Filters: React.FC<Props> = ({ className }) => {
 					{ text: 'Традиционное', value: '2' },
 				]}
 			/>
-
+			
+			{/* размер теста  */}
 			<CheckboxFiltersGroup
 				name='sizes'
 				className='mb-5'
@@ -90,7 +90,7 @@ export const Filters: React.FC<Props> = ({ className }) => {
 					onValueChange={updatePrice}
 				/>
 			</div>
-
+			{/* игредиенты */}
 			<CheckboxFiltersGroup
 				title='Ингредиенты'
 				name={'ingredients'}

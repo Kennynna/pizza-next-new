@@ -27,10 +27,11 @@ export const SearchInput: React.FC<Props> = ({ className }) => {
 	useClickAway(ref, () => {
 		// клик вне области инпута
 		setFocused(false)
+		searchQuery === ' ' && setSearchQuery('')
 	})
 
 	useDebounce(
-		//запрос при изменении инпута каждые 200мс
+
 		async () => {
 			try {
 				const res = await Api.products.search(searchQuery)
@@ -42,7 +43,10 @@ export const SearchInput: React.FC<Props> = ({ className }) => {
 		200,
 		[searchQuery]
 	)
-
+	const defaultedProduct = () =>{
+		setFocused(true)
+		setSearchQuery(' ')
+	}
 	return (
 		<>
 			{focused && (
@@ -61,7 +65,7 @@ export const SearchInput: React.FC<Props> = ({ className }) => {
 					type='text'
 					placeholder='Найти продукт...'
 					className='rounded-2xl outline-none w-full bg-gray-100 pl-11'
-					onFocus={() => setFocused(true)}
+					onFocus={defaultedProduct}
 					value={searchQuery}
 					onChange={e => setSearchQuery(e.target.value)}
 				/>

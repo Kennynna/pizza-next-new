@@ -21,8 +21,6 @@ export interface Filters {
 	prices: PriceProps
 }
 
-
-
 interface ReturnProps extends Filters {
 	setPrices: (name: keyof PriceProps, value: number) => void
 	setPizzaTypes: (key: string) => void
@@ -32,13 +30,11 @@ interface ReturnProps extends Filters {
 
 //хук для хранения состояний фильтрации
 export const useFilters = (): ReturnProps => {
-	const router = useRouter()
 	const searchParams = useSearchParams() as unknown as Map<
 		keyof QueryFilters,
 		string
 	>
-	//FIXME: проверить в консоли
-	//Фильтр ингридиентов
+
 	const [selectedIngredients, { toggle: toggleIngredients }] = useSet(
 		new Set<string>(searchParams.get('ingredients')?.split(','))
 	)
@@ -77,14 +73,17 @@ export const useFilters = (): ReturnProps => {
 		}))
 	}
 
-	return {
-		sizes,
-		pizzaTypes,
-		prices,
-		selectedIngredients,
-		setPrices: updatePrice,
-		setPizzaTypes: togglePizzaTypes,
-		setSizes: toggleSizes,
-		setSelectedIngredients: toggleIngredients,
-	}
+	return React.useMemo(
+		() => ({
+			sizes,
+			pizzaTypes,
+			prices,
+			selectedIngredients,
+			setPrices: updatePrice,
+			setPizzaTypes: togglePizzaTypes,
+			setSizes: toggleSizes,
+			setSelectedIngredients: toggleIngredients,
+		}),
+		[sizes, pizzaTypes, prices, selectedIngredients]
+	)
 }
