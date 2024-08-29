@@ -21,9 +21,18 @@ export const CartDrawerItem: React.FC<Props> = ({
 	details,
 	onClickCountButton,
 	removeCartItem,
+	disabled, //приостановка кликов пока данные не загрузились
 }) => {
 	return (
-		<div className={cn('flex bg-white p-5 gap-6', className)}>
+		<div
+			className={cn(
+				'flex bg-white p-5 gap-6',
+				{
+					'opacity-50 pointer-events-none': disabled,
+				},
+				className
+			)}
+		>
 			<CartItem.Image src={imageUrl} />
 			<p>{id}</p>
 			<div className='flex-1'>

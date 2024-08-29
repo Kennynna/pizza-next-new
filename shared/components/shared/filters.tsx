@@ -14,6 +14,7 @@ export const Filters: React.FC<Props> = ({ className }) => {
 	const { ingredients, loading } = useIngredients()
 	const filters = useFilters()
 	useQueryFilters(filters)
+
 	const updatePrice = (price: number[]) => {
 		filters.setPrices('priceFrom', price[0])
 		filters.setPrices('priceTo', price[1])
@@ -23,6 +24,7 @@ export const Filters: React.FC<Props> = ({ className }) => {
 		value: String(item.id + 2),
 		text: item.name,
 	}))
+
 
 	return (
 		<div className={cn(' top-40', className)}>

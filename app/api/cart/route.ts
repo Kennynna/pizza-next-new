@@ -5,8 +5,6 @@ import { findOrCreateCart } from '@/lib'
 import { CreateCartItemValues } from '@/shared/services/dto/cart.dto'
 import { updateCartTotalAmount } from '@/lib/update-cart-total-amount'
 
-
-
 export async function GET(req: NextRequest) {
 	try {
 		const token = req.cookies.get('cartToken')?.value
@@ -66,11 +64,9 @@ export async function POST(req: NextRequest) {
 			where: {
 				cartId: userCart.id,
 				productItemId: data.productItemId,
-				ingredients: {
-					every: {
-						id: { in: data.ingredients },
-					},
-				},
+				ingredients: data.ingredients?.length
+					? { some: { id: { in: data.ingredients } } }
+					: { none: {} },
 			},
 		})
 
