@@ -3,10 +3,12 @@ import { ProductsGroupList } from '@/shared/components/shared/products-group-lis
 import React, { Suspense } from 'react'
 import { findPizzas, GetSearchParams } from '@/lib/find-pizzas'
 
-
-export default async function Home({searchParams}: {searchParams: GetSearchParams}) {
+export default async function Home({
+	searchParams,
+}: {
+	searchParams: GetSearchParams
+}) {
 	const categories = await findPizzas(searchParams)
-
 
 
 	return (
@@ -50,5 +52,3 @@ export default async function Home({searchParams}: {searchParams: GetSearchParam
 		</>
 	)
 }
-
-

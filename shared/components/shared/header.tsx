@@ -6,8 +6,15 @@ import Link from 'next/link'
 interface Props {
 	className?: string
 }
-
-export const Header: React.FC<Props> = ({ className }) => {
+interface Props {
+	hasSearch?: boolean
+	hasCart?: boolean
+}
+export const Header: React.FC<Props> = ({
+	className,
+	hasSearch = true,
+	hasCart = true,
+}) => {
 	return (
 		<header className={cn('border, border-b', className)}>
 			<Container className='flex items-center justify-between py-8'>
@@ -22,12 +29,12 @@ export const Header: React.FC<Props> = ({ className }) => {
 					</Link>
 					<Image src='/logo.png' alt='Logo' width={35} height={35} />
 				</div>
-
-				<div className='mx-10 flex-1'>
-					<SearchInput />
-				</div>
-
-				<CartButton />
+				{hasSearch && (
+					<div className='mx-10 flex-1'>
+						<SearchInput />
+					</div>
+				)}
+				<CartButton hasCart={hasCart} />
 			</Container>
 		</header>
 	)
