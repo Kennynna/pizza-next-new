@@ -34,7 +34,6 @@ export const CartDrawerItem: React.FC<Props> = ({
 			)}
 		>
 			<CartItem.Image src={imageUrl} />
-			<p>{id}</p>
 			<div className='flex-1'>
 				<CartItem.Info details={details} name={name} />
 

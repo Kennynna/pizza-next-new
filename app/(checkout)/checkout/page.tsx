@@ -1,12 +1,42 @@
-import { Title, WhiteBlock } from '@/shared/components/shared'
-import { Input, Textarea } from '@/shared/components/ui'
+'use client'
 import React from 'react'
+import {
+	CheckoutItemSkeleton,
+	CartItem,
+	Title,
+	WhiteBlock,
+} from '@/shared/components/shared/'
+import { Input, Textarea } from '@/shared/components/ui'
+import { useCart } from '@/shared/hooks/use-cart'
+import { getCartItemsDetails } from '@/lib'
+import { PizzaSize, PizzaType } from '@/shared/constants/pizza'
+import { CheckoutSidebar } from '@/shared/components/shared/checkout-slidebar'
 
 interface Props {
 	className?: string
 }
 
 const Checkout: React.FC<Props> = ({ className }) => {
+	const { totalAmount, items, updateItemQuantity, removeCartItem, loading } =
+		useCart()
+
+	const onClickCountButton = (
+		id: number,
+		quantity: number,
+		type: 'plus' | 'minus'
+	) => {
+		const newQuantity = type === 'plus' ? quantity + 1 : quantity - 1
+		updateItemQuantity(id, newQuantity)
+	}
+
+	const [initialLoading, setInitialLoading] = React.useState(true)
+
+	React.useEffect(() => {
+		if (!loading) {
+			setInitialLoading(false)
+		}
+	}, [loading])
+
 	return (
 		<div className='mt-5'>
 			<Title
@@ -16,7 +46,36 @@ const Checkout: React.FC<Props> = ({ className }) => {
 			<div className='flex gap-10'>
 				{/* Left */}
 				<div className='flex flex-col gap-10 flex-1 mb-20'>
-					<WhiteBlock title='Доставка'></WhiteBlock>
+					<WhiteBlock title='Доставка'>
+						{!initialLoading
+							? items.map(item => (
+									<>
+										<CartItem
+											key={item.id}
+											removeCartItem={() => removeCartItem(item.id)}
+											id={item.id}
+											imageUrl={item.imageUrl}
+											details={getCartItemsDetails(
+												item.ingredients,
+												item.pizzaType as PizzaType,
+												item.pizzaSize as PizzaSize
+											)}
+											name={item.name}
+											price={item.price}
+											quantity={item.quantity}
+											onClickCountButton={type =>
+												onClickCountButton(item.id, item.quantity, type)
+											}
+											disabled={loading}
+										/>
+									</>
+							  ))
+							: [1, 2, 3].map((item, index) => (
+									<>
+										<CheckoutItemSkeleton key={index} />
+									</>
+							  ))}
+					</WhiteBlock>
 
 					<WhiteBlock title='Персональная информация'>
 						<div className='grid grid-cols-2 gap-2'>
@@ -51,14 +110,10 @@ const Checkout: React.FC<Props> = ({ className }) => {
 						</div>
 					</WhiteBlock>
 				</div>
+
 				{/* Right */}
 				<div className='w-[450px]'>
-					<WhiteBlock title='Ваш заказ' className='p-6 sticky top-4'>
-            <div className='flex flex-col gap-1'>
-                <span className='text-xl'>Итого</span>
-                <span className='text-4xl font-extrabold'>10_000 Руб</span>
-            </div>
-          </WhiteBlock>
+					<CheckoutSidebar totalAmount={totalAmount} />
 				</div>
 			</div>
 		</div>
