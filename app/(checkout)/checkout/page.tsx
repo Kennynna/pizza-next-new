@@ -1,33 +1,27 @@
 'use client'
 import React from 'react'
-import {
-	CheckoutItemSkeleton,
-	CartItem,
-	Title,
-	WhiteBlock,
-} from '@/shared/components/shared/'
+import { useForm, Resolver } from 'react-hook-form'
+import {CheckoutItemSkeleton, CartItem, Title, WhiteBlock, CheckoutSidebar, FormInput} from '@/shared/components/shared/'
 import { Input, Textarea } from '@/shared/components/ui'
 import { useCart } from '@/shared/hooks/use-cart'
 import { getCartItemsDetails } from '@/lib'
 import { PizzaSize, PizzaType } from '@/shared/constants/pizza'
-import { CheckoutSidebar } from '@/shared/components/shared/checkout-slidebar'
 
 interface Props {
 	className?: string
 }
 
 const Checkout: React.FC<Props> = ({ className }) => {
-	const { totalAmount, items, updateItemQuantity, removeCartItem, loading } =
-		useCart()
+	const { totalAmount, items, updateItemQuantity, removeCartItem, loading } = useCart()
 
-	const onClickCountButton = (
-		id: number,
-		quantity: number,
-		type: 'plus' | 'minus'
-	) => {
+	const onClickCountButton = (id: number,quantity: number, type: 'plus' | 'minus') => {
 		const newQuantity = type === 'plus' ? quantity + 1 : quantity - 1
 		updateItemQuantity(id, newQuantity)
 	}
+
+	const form = useForm({
+		resolver:
+	})
 
 	const [initialLoading, setInitialLoading] = React.useState(true)
 
@@ -70,7 +64,7 @@ const Checkout: React.FC<Props> = ({ className }) => {
 										/>
 									</>
 							  ))
-							: [1, 2, 3].map((item, index) => (
+							: [1, 2, 3].map((_, index) => (
 									<>
 										<CheckoutItemSkeleton key={index} />
 									</>
@@ -79,14 +73,18 @@ const Checkout: React.FC<Props> = ({ className }) => {
 
 					<WhiteBlock title='Персональная информация'>
 						<div className='grid grid-cols-2 gap-2'>
-							<Input name='firstName' placeholder='Имя' className='text-base' />
-							<Input
+							<FormInput
+								name='firstName'
+								placeholder='Имя'
+								className='text-base'
+							/>
+							<FormInput
 								name='lastName'
 								placeholder='Фамилия'
 								className='text-base'
 							/>
 							<Input name='email' placeholder='E-mail' className='text-base' />
-							<Input
+							<FormInput
 								name='phone'
 								placeholder='Телефон'
 								className='text-base'

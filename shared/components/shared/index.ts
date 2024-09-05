@@ -20,3 +20,6 @@ export { WhiteBlock } from './white-block'
 export { CartItem } from './cart-item'
 export { CheckoutItemDetails } from './checkout-item-details'
 export { CheckoutItemSkeleton } from './checkout-item-skeleton'
+export { CheckoutSidebar } from './checkout-slidebar'
+
+export * from './form-component'
