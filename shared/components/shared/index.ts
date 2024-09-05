@@ -23,3 +23,4 @@ export { CheckoutItemSkeleton } from './checkout-item-skeleton'
 export { CheckoutSidebar } from './checkout-slidebar'
 
 export * from './form-component'
+export * from './checkout'

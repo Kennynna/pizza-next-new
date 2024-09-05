@@ -1,29 +1,54 @@
 'use client'
 import React from 'react'
-import { useForm, Resolver } from 'react-hook-form'
-import {CheckoutItemSkeleton, CartItem, Title, WhiteBlock, CheckoutSidebar, FormInput} from '@/shared/components/shared/'
-import { Input, Textarea } from '@/shared/components/ui'
+import { useForm, Resolver, FormProvider } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import {
+	Title,
+	CheckoutSidebar,
+	CheckoutCart,
+	CheckoutPersonalForm,
+} from '@/shared/components/shared/'
 import { useCart } from '@/shared/hooks/use-cart'
-import { getCartItemsDetails } from '@/lib'
-import { PizzaSize, PizzaType } from '@/shared/constants/pizza'
+import { CheckoutAddressForm } from '@/shared/components/shared/checkout/checkout-address-form'
+import {
+	checkoutFormSchema,
+	CheckoutFormValues,
+} from '@/shared/components/shared/checkout/schemas/checkout-form-schema'
 
 interface Props {
 	className?: string
 }
 
 const Checkout: React.FC<Props> = ({ className }) => {
-	const { totalAmount, items, updateItemQuantity, removeCartItem, loading } = useCart()
+	const { totalAmount, items, updateItemQuantity, removeCartItem, loading } =
+		useCart()
 
-	const onClickCountButton = (id: number,quantity: number, type: 'plus' | 'minus') => {
+	const onClickCountButton = (
+		id: number,
+		quantity: number,
+		type: 'plus' | 'minus'
+	) => {
 		const newQuantity = type === 'plus' ? quantity + 1 : quantity - 1
 		updateItemQuantity(id, newQuantity)
 	}
 
-	const form = useForm({
-		resolver:
+	const form = useForm<CheckoutFormValues>({
+		resolver: zodResolver(checkoutFormSchema),
+		defaultValues: {
+			email: '',
+			firstName: '',
+			lastName: '',
+			phone: '',
+			address: '',
+			comment: '',
+		},
 	})
 
 	const [initialLoading, setInitialLoading] = React.useState(true)
+
+	const onSubmit = (data: CheckoutFormValues) => {
+		console.log(data)
+	}
 
 	React.useEffect(() => {
 		if (!loading) {
@@ -37,83 +62,31 @@ const Checkout: React.FC<Props> = ({ className }) => {
 				text='Оформление заказа'
 				className='font-extrabold mb-8 text-[36px]'
 			/>
-			<div className='flex gap-10'>
-				{/* Left */}
-				<div className='flex flex-col gap-10 flex-1 mb-20'>
-					<WhiteBlock title='Доставка'>
-						{!initialLoading
-							? items.map(item => (
-									<>
-										<CartItem
-											key={item.id}
-											removeCartItem={() => removeCartItem(item.id)}
-											id={item.id}
-											imageUrl={item.imageUrl}
-											details={getCartItemsDetails(
-												item.ingredients,
-												item.pizzaType as PizzaType,
-												item.pizzaSize as PizzaSize
-											)}
-											name={item.name}
-											price={item.price}
-											quantity={item.quantity}
-											onClickCountButton={type =>
-												onClickCountButton(item.id, item.quantity, type)
-											}
-											disabled={loading}
-										/>
-									</>
-							  ))
-							: [1, 2, 3].map((_, index) => (
-									<>
-										<CheckoutItemSkeleton key={index} />
-									</>
-							  ))}
-					</WhiteBlock>
+			<FormProvider {...form}>
+				<form onSubmit={form.handleSubmit(onSubmit)}>
+					<div className='flex gap-10'>
+						{/* Left */}
+						<div className='flex flex-col gap-10 flex-1 mb-20'>
+							<CheckoutCart
+								items={items}
+								loading={loading}
+								initialLoading={initialLoading}
+								onClickCountButton={onClickCountButton}
+								removeCartItem={removeCartItem}
+							/>
 
-					<WhiteBlock title='Персональная информация'>
-						<div className='grid grid-cols-2 gap-2'>
-							<FormInput
-								name='firstName'
-								placeholder='Имя'
-								className='text-base'
-							/>
-							<FormInput
-								name='lastName'
-								placeholder='Фамилия'
-								className='text-base'
-							/>
-							<Input name='email' placeholder='E-mail' className='text-base' />
-							<FormInput
-								name='phone'
-								placeholder='Телефон'
-								className='text-base'
-								type='tel'
-							/>
+							<CheckoutPersonalForm />
+
+							<CheckoutAddressForm />
 						</div>
-					</WhiteBlock>
 
-					<WhiteBlock title='Адрес доставки'>
-						<div className='flex flex-col gap-5'>
-							<Input
-								name='firstName'
-								placeholder='Введите адрес...'
-								className='text-base'
-							/>
-							<Textarea
-								rows={5}
-								className='text-base'
-								placeholder='Комментарий к заказу'
-							/>
+						{/* Right */}
+						<div className='w-[450px]'>
+							<CheckoutSidebar totalAmount={totalAmount} />
 						</div>
-					</WhiteBlock>
-				</div>
-
-				{/* Right */}
-				<div className='w-[450px]'>
-					<CheckoutSidebar totalAmount={totalAmount} />
-				</div>
-			</div>
+					</div>
+				</form>
+			</FormProvider>
 		</div>
 	)
 }
