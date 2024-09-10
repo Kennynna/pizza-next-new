@@ -48,7 +48,7 @@ export const CartItem: React.FC<Props> = ({
 					value={quantity}
 					
 				/>
-				<button onClick={removeCartItem}>
+				<button type='button' onClick={removeCartItem}>
 					<X
 						className='text-gray-400 cursor-pointer hover:text-gray-600'
 						size={20}

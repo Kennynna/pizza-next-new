@@ -74,15 +74,15 @@ const Checkout: React.FC<Props> = ({ className }) => {
 								onClickCountButton={onClickCountButton}
 								removeCartItem={removeCartItem}
 							/>
-
-							<CheckoutPersonalForm />
+							
+							<CheckoutPersonalForm/>
 
 							<CheckoutAddressForm />
 						</div>
 
 						{/* Right */}
 						<div className='w-[450px]'>
-							<CheckoutSidebar totalAmount={totalAmount} />
+							<CheckoutSidebar totalAmount={totalAmount} loading={loading}/>
 						</div>
 					</div>
 				</form>

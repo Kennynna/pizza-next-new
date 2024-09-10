@@ -50,7 +50,7 @@ export const CheckoutCart: React.FC<CheckoutCartProps> = ({
 							/>
 						</>
 				  ))
-				: [1, 2, 3].map((_, index) => <CheckoutItemSkeleton key={index} />)}
+				: [1].map((_, index) => <CheckoutItemSkeleton key={index} />)}
 		</WhiteBlock>
 	)
 }

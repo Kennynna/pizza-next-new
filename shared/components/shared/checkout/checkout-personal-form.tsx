@@ -1,7 +1,6 @@
 import React from 'react'
 import { WhiteBlock } from '../white-block'
 import { FormInput } from '../form-component'
-import { Input } from '../../ui'
 
 interface Props {
 	className?: string
