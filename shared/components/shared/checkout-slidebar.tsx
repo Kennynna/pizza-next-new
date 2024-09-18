@@ -60,7 +60,7 @@ export const CheckoutSidebar: React.FC<Props> = ({
 				value={loading ? <Skeleton className='w-16 h-5' /> : String(delivery)}
 			/>
 			<div className='flex items-center justify-center'>
-				<Button className='w-56 h-12 text-base items-center' size='lg'>
+				<Button loading={loading} className='w-56 h-12 text-base items-center' size='lg'>
 					Перейти к оплате
 				</Button>
 			</div>

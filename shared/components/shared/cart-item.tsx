@@ -28,7 +28,7 @@ export const CartItem: React.FC<Props> = ({
 	return (
 		<div
 			className={cn(
-				'flex items-center justify-between',
+				'flex items-center justify-between border-b-2 border-grey',
 				{
 					'opacity-50 pointer-events-none': disabled,
 				},
@@ -46,7 +46,6 @@ export const CartItem: React.FC<Props> = ({
 				<CartItemDetails.CountButton
 					onClick={onClickCountButton}
 					value={quantity}
-					
 				/>
 				<button type='button' onClick={removeCartItem}>
 					<X

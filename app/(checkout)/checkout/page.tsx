@@ -14,6 +14,9 @@ import {
 	checkoutFormSchema,
 	CheckoutFormValues,
 } from '@/shared/components/shared/checkout/schemas/checkout-form-schema'
+import { icons } from 'lucide-react'
+import toast from 'react-hot-toast'
+import { createOrder } from '@/app/actions'
 
 interface Props {
 	className?: string
@@ -45,9 +48,27 @@ const Checkout: React.FC<Props> = ({ className }) => {
 	})
 
 	const [initialLoading, setInitialLoading] = React.useState(true)
+	const [submit, setSubmit] = React.useState(false)
 
-	const onSubmit = (data: CheckoutFormValues) => {
-		console.log(data)
+
+
+	const onSubmit = async (data: CheckoutFormValues) => {
+		try {
+			setSubmit(true)
+			const url = createOrder(data)
+			toast.error('Заказ успешно оформлен! Переход на страницу оплаты', {
+				icon: '💸',
+			})
+
+			if (url) {
+				location.href = url
+			}
+		} catch (error) {
+			setSubmit(false)
+			toast.error('Не удалось создать заказ', {
+				icon: '❌',
+			})
+		}
 	}
 
 	React.useEffect(() => {
@@ -74,15 +95,15 @@ const Checkout: React.FC<Props> = ({ className }) => {
 								onClickCountButton={onClickCountButton}
 								removeCartItem={removeCartItem}
 							/>
-							
-							<CheckoutPersonalForm/>
+
+							<CheckoutPersonalForm />
 
 							<CheckoutAddressForm />
 						</div>
 
 						{/* Right */}
 						<div className='w-[450px]'>
-							<CheckoutSidebar totalAmount={totalAmount} loading={loading}/>
+							<CheckoutSidebar totalAmount={totalAmount} loading={loading || submit} />
 						</div>
 					</div>
 				</form>
