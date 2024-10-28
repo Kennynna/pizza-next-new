@@ -1,7 +1,9 @@
 'use server'
 
+import { sendEmail } from '@/lib'
 import { prisma } from '@/prisma/prisma-client'
 import { CheckoutFormValues } from '@/shared/components/shared/checkout/schemas/checkout-form-schema'
+import { PayOrderTemplate } from '@/shared/components/shared/email-template/pay-order'
 import { OrderStatus } from '@prisma/client'
 import { cookies } from 'next/headers'
 import { use } from 'react'
@@ -71,5 +73,17 @@ export async function createOrder(data: CheckoutFormValues) {
         cartId: userCart?.id,
       },
     })
-	} catch (error) {}
+		    await sendEmail(
+					data.email,
+					'Next Pizza / оплатите заказ №' + order.id,
+					PayOrderTemplate({
+						firstName: order.fullName,
+						orderId: order.id,
+						totalAmount: order.totalAmount,
+						paymentUrl: 'https://resend.com/docs/send-with-nextjs',
+					})
+				)
+	} catch (error) {
+		console.log('Ошибка при оплате ')
+	}
 }
