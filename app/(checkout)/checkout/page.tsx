@@ -1,6 +1,7 @@
 'use client'
+
 import React from 'react'
-import { useForm, Resolver, FormProvider } from 'react-hook-form'
+import { useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
 	Title,
@@ -14,26 +15,18 @@ import {
 	checkoutFormSchema,
 	CheckoutFormValues,
 } from '@/shared/components/shared/checkout/schemas/checkout-form-schema'
-import { icons } from 'lucide-react'
-import toast from 'react-hot-toast'
+import { toast } from 'react-hot-toast'
 import { createOrder } from '@/app/actions'
+import { Button } from '@/shared/components/ui/button'
 
-interface Props {
-	className?: string
-}
-
-const Checkout: React.FC<Props> = ({ className }) => {
-	const { totalAmount, items, updateItemQuantity, removeCartItem, loading } =
-		useCart()
-
-	const onClickCountButton = (
-		id: number,
-		quantity: number,
-		type: 'plus' | 'minus'
-	) => {
-		const newQuantity = type === 'plus' ? quantity + 1 : quantity - 1
-		updateItemQuantity(id, newQuantity)
-	}
+const Checkout = () => {
+	const {
+		totalAmount,
+		items,
+		updateItemQuantity,
+		removeCartItem,
+		loading: cartLoading,
+	} = useCart()
 
 	const form = useForm<CheckoutFormValues>({
 		resolver: zodResolver(checkoutFormSchema),
@@ -48,49 +41,59 @@ const Checkout: React.FC<Props> = ({ className }) => {
 	})
 
 	const [initialLoading, setInitialLoading] = React.useState(true)
-	const [submit, setSubmit] = React.useState(false)
+	const [submitting, setSubmitting] = React.useState(false)
 
-
+	const onClickCountButton = (
+		id: number,
+		quantity: number,
+		type: 'plus' | 'minus'
+	) => {
+		const newQuantity = type === 'plus' ? quantity + 1 : quantity - 1
+		updateItemQuantity(id, newQuantity)
+	}
 
 	const onSubmit = async (data: CheckoutFormValues) => {
 		try {
-			setSubmit(true)
-			const url = createOrder(data)
-			toast.error('Заказ успешно оформлен! Переход на страницу оплаты', {
-				icon: '💸',
-			})
-
+			setSubmitting(true)
+			const url = await createOrder(data)
 			if (url) {
-				location.href = url
+				toast.success('Заказ успешно оформлен! Переход на страницу оплаты', {
+					icon: '💸',
+				})
+				window.location.href = url
+			} else {
+				throw new Error('Не удалось получить URL для оплаты')
 			}
 		} catch (error) {
-			setSubmit(false)
+			console.error('Error creating order:', error)
 			toast.error('Не удалось создать заказ', {
 				icon: '❌',
 			})
+		} finally {
+			setSubmitting(false)
 		}
 	}
 
 	React.useEffect(() => {
-		if (!loading) {
+		if (!cartLoading) {
 			setInitialLoading(false)
 		}
-	}, [loading])
+	}, [cartLoading])
 
 	return (
 		<div className='mt-5'>
 			<Title
 				text='Оформление заказа'
-				className='font-extrabold mb-8 text-[36px]'
+				className='font-extrabold mb-8 text-3xl md:text-[36px]'
 			/>
 			<FormProvider {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)}>
-					<div className='flex gap-10'>
+				<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+					<div className='flex flex-col lg:flex-row gap-10'>
 						{/* Left */}
-						<div className='flex flex-col gap-10 flex-1 mb-20'>
+						<div className='flex flex-col gap-10 flex-1'>
 							<CheckoutCart
 								items={items}
-								loading={loading}
+								loading={cartLoading}
 								initialLoading={initialLoading}
 								onClickCountButton={onClickCountButton}
 								removeCartItem={removeCartItem}
@@ -102,13 +105,24 @@ const Checkout: React.FC<Props> = ({ className }) => {
 						</div>
 
 						{/* Right */}
-						<div className='w-[450px]'>
-							<CheckoutSidebar totalAmount={totalAmount} loading={loading || submit} />
+						<div className='w-full lg:w-[450px]'>
+							<CheckoutSidebar
+								totalAmount={totalAmount}
+								loading={cartLoading || submitting}
+							/>
 						</div>
 					</div>
+					<Button
+						type='submit'
+						className='w-full md:w-auto'
+						disabled={submitting || cartLoading}
+					>
+						{submitting ? 'Оформление заказа...' : 'Оформить заказ'}
+					</Button>
 				</form>
 			</FormProvider>
 		</div>
 	)
 }
+
 export default Checkout
