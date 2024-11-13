@@ -1,66 +1,113 @@
-import { Title, WhiteBlock } from '@/shared/components/shared'
-import { Input, Textarea } from '@/shared/components/ui'
+'use client'
 import React from 'react'
+import { useForm, Resolver, FormProvider } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import {
+	Title,
+	CheckoutSidebar,
+	CheckoutCart,
+	CheckoutPersonalForm,
+} from '@/shared/components/shared/'
+import { useCart } from '@/shared/hooks/use-cart'
+import { CheckoutAddressForm } from '@/shared/components/shared/checkout/checkout-address-form'
+import {
+	checkoutFormSchema,
+	CheckoutFormValues,
+} from '@/shared/components/shared/checkout/schemas/checkout-form-schema'
+import { icons } from 'lucide-react'
+import toast from 'react-hot-toast'
+import { createOrder } from '@/app/actions'
 
 interface Props {
 	className?: string
 }
 
 const Checkout: React.FC<Props> = ({ className }) => {
+	const { totalAmount, items, updateItemQuantity, removeCartItem, loading } =
+		useCart()
+
+	const onClickCountButton = (
+		id: number,
+		quantity: number,
+		type: 'plus' | 'minus'
+	) => {
+		const newQuantity = type === 'plus' ? quantity + 1 : quantity - 1
+		updateItemQuantity(id, newQuantity)
+	}
+
+	const form = useForm<CheckoutFormValues>({
+		resolver: zodResolver(checkoutFormSchema),
+		defaultValues: {
+			email: '',
+			firstName: '',
+			lastName: '',
+			phone: '',
+			address: '',
+			comment: '',
+		},
+	})
+
+	const [initialLoading, setInitialLoading] = React.useState(true)
+	const [submit, setSubmit] = React.useState(false)
+
+
+
+	const onSubmit = async (data: CheckoutFormValues) => {
+		try {
+			setSubmit(true)
+			const url = createOrder(data)
+			toast.error('Заказ успешно оформлен! Переход на страницу оплаты', {
+				icon: '💸',
+			})
+
+			if (url) {
+				location.href = url
+			}
+		} catch (error) {
+			setSubmit(false)
+			toast.error('Не удалось создать заказ', {
+				icon: '❌',
+			})
+		}
+	}
+
+	React.useEffect(() => {
+		if (!loading) {
+			setInitialLoading(false)
+		}
+	}, [loading])
+
 	return (
 		<div className='mt-5'>
 			<Title
 				text='Оформление заказа'
 				className='font-extrabold mb-8 text-[36px]'
 			/>
-			<div className='flex gap-10'>
-				{/* Left */}
-				<div className='flex flex-col gap-10 flex-1 mb-20'>
-					<WhiteBlock title='Доставка'></WhiteBlock>
+			<FormProvider {...form}>
+				<form onSubmit={form.handleSubmit(onSubmit)}>
+					<div className='flex gap-10'>
+						{/* Left */}
+						<div className='flex flex-col gap-10 flex-1 mb-20'>
+							<CheckoutCart
+								items={items}
+								loading={loading}
+								initialLoading={initialLoading}
+								onClickCountButton={onClickCountButton}
+								removeCartItem={removeCartItem}
+							/>
 
-					<WhiteBlock title='Персональная информация'>
-						<div className='grid grid-cols-2 gap-2'>
-							<Input name='firstName' placeholder='Имя' className='text-base' />
-							<Input
-								name='lastName'
-								placeholder='Фамилия'
-								className='text-base'
-							/>
-							<Input name='email' placeholder='E-mail' className='text-base' />
-							<Input
-								name='phone'
-								placeholder='Телефон'
-								className='text-base'
-								type='tel'
-							/>
-						</div>
-					</WhiteBlock>
+							<CheckoutPersonalForm />
 
-					<WhiteBlock title='Адрес доставки'>
-						<div className='flex flex-col gap-5'>
-							<Input
-								name='firstName'
-								placeholder='Введите адрес...'
-								className='text-base'
-							/>
-							<Textarea
-								rows={5}
-								className='text-base'
-								placeholder='Комментарий к заказу'
-							/>
+							<CheckoutAddressForm />
 						</div>
-					</WhiteBlock>
-				</div>
-				{/* Right */}
-				<div className='w-[450px]'>
-					<WhiteBlock title='Ваш заказ' className='p-6 sticky top-4'>
-            <div className='flex flex-col gap-1'>
-                <span className='text-xl'>Итого</span>
-                <span className='text-4xl font-extrabold'>10_000 Руб</span>
-            </div>
-          </WhiteBlock>
-				</div>
-			</div>
+
+						{/* Right */}
+						<div className='w-[450px]'>
+							<CheckoutSidebar totalAmount={totalAmount} loading={loading || submit} />
+						</div>
+					</div>
+				</form>
+			</FormProvider>
 		</div>
 	)
 }
