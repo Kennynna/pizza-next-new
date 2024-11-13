@@ -7,12 +7,28 @@ export async function GET() {
   return NextResponse.json(users)
 }
 
-export async function POST(req: NextResponse) {
-  const data = await req.json()
+export async function POST(req: NextRequest) {
+	try {
+		const data = await req.json()
 
-  const user = await prisma.user.create({
-    data
-  })
+		// Здесь должна быть валидация данных
+		if (!data.name || !data.email) {
+			return NextResponse.json(
+				{ error: 'Name and email are required' },
+				{ status: 400 }
+			)
+		}
 
-  return NextResponse.json(user)
+		const user = await prisma.user.create({
+			data,
+		})
+
+		return NextResponse.json(user, { status: 201 })
+	} catch (error) {
+		console.error('Error creating user:', error)
+		return NextResponse.json(
+			{ error: 'Failed to create user' },
+			{ status: 500 }
+		)
+	}
 }
